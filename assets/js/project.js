@@ -36,7 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("detail-project-name").textContent = project.name;
       document.getElementById("project-location").textContent =
         project.location;
-      document.getElementById("project-type").textContent = project.type;
+      document.getElementById("project-type").textContent =
+        project.project_type;
       document.getElementById("project-area").textContent = `${parseFloat(
         project.area
       ).toLocaleString("es-ES", {
@@ -79,6 +80,11 @@ document.addEventListener("DOMContentLoaded", function () {
       // Otros gastos si existen
       if (project.other_expenses) {
         expenses += parseFloat(project.other_expenses);
+      }
+
+      // Gastos de financiación si existen
+      if (project.financing_expenses) {
+        expenses += parseFloat(project.financing_expenses);
       }
 
       expenses = expenses.toLocaleString("es-ES", {
