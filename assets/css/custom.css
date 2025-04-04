@@ -597,12 +597,6 @@ footer hr {
   font-weight: 700;
 }
 
-.financial-date {
-  margin-top: 0.3rem;
-  font-size: 0.75rem;
-  color: #888;
-}
-
 /* Grid de métricas */
 .metrics-grid {
   display: grid;
