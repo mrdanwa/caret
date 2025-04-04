@@ -1,3 +1,6 @@
+/*///////////////////////////////////
+// Bootstrap Override
+///////////////////////////////////*/
 body {
   position: relative;
   min-height: 100%;
@@ -472,6 +475,9 @@ a:focus {
   position: fixed;
 }
 
+/*///////////////////////////////////
+// Flexslider
+///////////////////////////////////*/
 .flexslider {
   border-radius: 0;
   margin: 0;
@@ -480,14 +486,50 @@ a:focus {
   overflow: hidden;
 }
 
+.flexslider .flex-control-thumbs li {
+  width: calc(25% - 4.75px);
+}
+
+.flexslider .flex-control-thumbs li img {
+  padding: 2px;
+  border: 1px solid #bebebe;
+  border-radius: 3px;
+  margin-bottom: 6px;
+}
+
+.flexslider .flex-control-thumbs li img.flex-active {
+  border-color: #404040;
+}
+
+.flexslider .flex-control-thumbs li:not(:nth-child(4)) {
+  margin-right: 6px;
+}
+
+.flex-direction-nav a.flex-next:before {
+  font-family: FontAwesome;
+  content: "\f105";
+  line-height: 40px;
+  text-shadow: none;
+}
+
+.flex-direction-nav a:before {
+  font-family: FontAwesome;
+  content: "\f104";
+}
+
+/* Hace que el título principal sea blanco */
 .flexslider .slides h1.fs-4.fs-md-5.zopacity {
   color: #ffffff !important;
 }
 
+/* Hace que el subtítulo sea blanco (anula el color-primary) */
 .flexslider .slides p.color-primary {
   color: #ffffff !important;
 }
 
+/*///////////////////////////////////
+// Remodal
+///////////////////////////////////*/
 .remodal-video {
   padding: 0;
   min-width: 75%;
@@ -505,6 +547,10 @@ a:focus {
   color: white;
 }
 
+/*///////////////////////////////////
+// Semantic-ui
+///////////////////////////////////*/
+
 .ui.selection.dropdown {
   font-family: "Montserrat", sans-serif;
   border-radius: 3px;
@@ -520,15 +566,6 @@ a:focus {
 
 .ui.selection.dropdown[class*="background-"] {
   color: #fff;
-}
-
-.ui.selection.dropdown[class*="background-"].visible .text:not(.default) {
-  color: #fff;
-}
-
-.ui.selection.dropdown.visible > .text:not(.default) {
-  font-weight: inherit;
-  color: #1f1f1f;
 }
 
 .ui.selection.dropdown.active {
@@ -617,6 +654,10 @@ a:focus {
   border-color: #555555;
 }
 
+/*///////////////////////////////////
+// Typed-text
+///////////////////////////////////*/
+
 @-webkit-keyframes blink {
   0% {
     opacity: 1;
@@ -641,6 +682,9 @@ a:focus {
   }
 }
 
+/*///////////////////////////////////
+// Typography
+///////////////////////////////////*/
 html {
   font-size: 16px;
 }
@@ -773,6 +817,9 @@ h6,
   font-weight: 800 !important;
 }
 
+/*///////////////////////////////////
+// Buttons
+///////////////////////////////////*/
 .btn {
   padding: 0.8rem 2.5rem;
   font-family: "Montserrat", sans-serif;
@@ -916,6 +963,9 @@ h6,
   border-color: #4c6599;
 }
 
+/*///////////////////////////////////
+// Tabs
+///////////////////////////////////*/
 @-webkit-keyframes fadeInLeft {
   0% {
     opacity: 0;
@@ -1038,6 +1088,10 @@ h6,
   margin-top: 30px;
   position: relative;
 }
+
+/*///////////////////////////////////
+// Forms
+///////////////////////////////////*/
 
 .form-control {
   padding: 0.8rem;
@@ -1173,6 +1227,9 @@ input[type="file"] {
   fill: none;
 }
 
+/*///////////////////////////////////
+// Border
+///////////////////////////////////*/
 .border {
   border: 1px solid currentColor !important;
 }
@@ -1180,6 +1237,10 @@ input[type="file"] {
 .border-2x {
   border-width: 2px !important;
 }
+
+/********************************
+    Responsive border radius
+********************************/
 
 .radius-bl-0 {
   border-bottom-left-radius: 0 !important;
@@ -1222,6 +1283,9 @@ input[type="file"] {
   }
 }
 
+/*///////////////////////////////////
+// Helpers
+///////////////////////////////////*/
 .container {
   position: relative;
 }
@@ -1241,6 +1305,7 @@ section {
   min-height: 100vh;
 }
 
+/* Background */
 .background-holder {
   position: absolute;
   width: 100%;
@@ -1343,6 +1408,10 @@ hr.short {
 .pos-relative {
   position: relative;
 }
+
+/*///////////////////////////////////
+// Spacing
+///////////////////////////////////*/
 
 .mb-0 {
   margin-bottom: 0 !important;
@@ -1545,16 +1614,23 @@ hr.short {
   }
 }
 
+/*///////////////////////////////////
+// Miscellaneous
+///////////////////////////////////*/
 [class^="icon-"],
 [class*=" icon-"] {
   display: inline-block;
 }
 
+/*///////////////////////////////////
+// Prism
+///////////////////////////////////*/
 :not(pre) > code[class*="language-"] {
   background-color: #fafafa;
   border: 1px solid #e1e1e1;
 }
 
+/* Preloader */
 #preloader {
   position: fixed;
   top: 0;
@@ -1582,6 +1658,7 @@ hr.short {
   transition: all 0.3s ease;
 }
 
+/* Estilo por defecto (sin scroll) */
 .navbar-elixir a:not(.btn),
 .navbar-elixir button,
 .navbar-elixir [class*="has-"]:after {
@@ -1593,6 +1670,7 @@ hr.short {
   border-color: #ffffff !important;
 }
 
+/* Clase que se añadirá con JavaScript cuando se hace scroll */
 .navbar-elixir.scrolled {
   background: rgba(255, 255, 255, 0.85);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
@@ -1600,6 +1678,7 @@ hr.short {
   border-bottom: none;
 }
 
+/* Estilo cuando hay scroll */
 .navbar-elixir.scrolled a:not(.btn),
 .navbar-elixir.scrolled button,
 .navbar-elixir.scrolled [class*="has-"]:after {
@@ -1611,6 +1690,7 @@ hr.short {
   border-color: #000000 !important;
 }
 
+/* Para el botón de CARET ECOSYSTEM */
 .navbar-elixir .btn-outline-primary:hover {
   color: white !important;
   background-color: #004225 !important;
