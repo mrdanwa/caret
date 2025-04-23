@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const originalContent = inputGroup.innerHTML;
 
     // Send the request to the API
-    fetch("https://caret-u6dxo.ondigitalocean.app/api/newsletter/", {
+    fetch("https://caret-ek3gf.ondigitalocean.app/api/newsletter/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const originalContent = contactForm.innerHTML;
 
     // Send the request to the API
-    fetch("https://caret-u6dxo.ondigitalocean.app/api/contact/", {
+    fetch("https://caret-ek3gf.ondigitalocean.app/api/contact/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Función para obtener todos los proyectos (recursiva para manejar paginación)
   async function fetchAllProjects(
-    url = `https://caret-u6dxo.ondigitalocean.app/api/projects/?status=${projectStatus}`
+    url = `https://caret-ek3gf.ondigitalocean.app/api/projects/?status=${projectStatus}`
   ) {
     try {
       const response = await fetch(url);

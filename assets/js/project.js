@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // URL de la API
-  const apiUrl = `https://caret-u6dxo.ondigitalocean.app/api/projects/${projectId}/`;
+  const apiUrl = `https://caret-ek3gf.ondigitalocean.app/api/projects/${projectId}/`;
 
   // Cargar datos del proyecto
   fetch(apiUrl)
