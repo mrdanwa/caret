@@ -9,13 +9,6 @@ $("body").imagesLoaded({ background: ".background-holder" }, function () {
   }, 800);
 });
 
-// Zanimation
-$(window).on("load", function () {
-  $("*[data-inertia]").each(function () {
-    $(this).inertia();
-  });
-});
-
 // Navbar dropdown
 $(document).ready(function () {
   // Make the navbar fixed position from the start

@@ -252,37 +252,15 @@ $(document).ready(function () {
 ////////////////////////////////////////
 $(document).ready(function () {
   if ($(".flexslider").length) {
-    var flexSliderZanimPlay = function (slider) {
-      if ($(slider).find("*[data-zanim-timeline]").length == 0) return;
-      $(slider)
-        .find("*[data-zanim-timeline].flex-active-slide")
-        .zanimation(zanimationDefaults)
-        .play();
-    };
-
-    var flexSliderZanimKill = function (slider) {
-      if ($(slider).find("*[data-zanim-timeline]").length == 0) return;
-      $(slider)
-        .find("*[data-zanim-timeline]")
-        .zanimation(zanimationDefaults)
-        .kill();
-    };
-
     $(".flexslider").each(function () {
       var $this = $(this);
-
       $this.flexslider(
         $.extend($this.data("zflexslider") || {}, {
           start: function (slider) {
             slider.removeClass("loading");
-            flexSliderZanimPlay(slider);
           },
-          before: function (slider) {
-            flexSliderZanimKill(slider);
-          },
-          after: function (slider) {
-            flexSliderZanimPlay(slider);
-          },
+          before: function (slider) {},
+          after: function (slider) {},
         })
       );
     });
@@ -296,20 +274,6 @@ $(document).ready(function () {
 /////////////////////////////////////////
 $(document).ready(function () {
   if ($(".owl-carousel").length) {
-    var owlZanimPlay = function ($el) {
-      if ($el.find("*[data-zanim-timeline]").length == 0) return;
-
-      $el
-        .find(".owl-item.active > *[data-zanim-timeline]")
-        .zanimation(zanimationDefaults)
-        .play();
-    };
-
-    var owlZanimKill = function ($el) {
-      if ($el.find("*[data-zanim-timeline]").length == 0) return;
-      $el.find("*[data-zanim-timeline]").zanimation(zanimationDefaults).kill();
-    };
-
     $(".owl-carousel").each(function () {
       var $this = $(this),
         options = $this.data("options") || {};
@@ -318,20 +282,7 @@ $(document).ready(function () {
           '<span class="fa fa-angle-left"></span>',
           '<span class="fa fa-angle-right"></span>',
         ]);
-
-      $this.owlCarousel(
-        $.extend(options || {}, {
-          onInitialized: function (event) {
-            owlZanimPlay($(event.target));
-          },
-          onTranslate: function (event) {
-            owlZanimKill($(event.target));
-          },
-          onTranslated: function (event) {
-            owlZanimPlay($(event.target));
-          },
-        })
-      );
+      $this.owlCarousel($.extend(options || {}, {}));
     });
   }
 });
