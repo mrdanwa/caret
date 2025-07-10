@@ -25,25 +25,6 @@ $(document).ready(function () {
       navBarOrgOffset = $("#znav-container").offset().top;
     $this = $("#znav-container");
 
-    /////////////////////////////////////
-    // Scrollup Fixed Navbar
-    /////////////////////////////////////
-    // $(window).scroll(function() {
-    //     var currentScroll = $(this).scrollTop();
-
-    //     if(currentScroll > navBarOrgOffset) {
-    //         if (currentScroll > previousScroll) {
-    //             $this.fadeOut();
-    //         } else {
-    //             $this.fadeIn();
-    //             $this.addClass('znav-revealed');
-    //         }
-    //     } else {
-    //          $this.removeClass('znav-revealed');
-    //     }
-    //     previousScroll = currentScroll;
-    // });
-
     $("#znav-container #navbarNavDropdown ul.navbar-nav .dropdown").each(
       function () {
         $this = $(this);
@@ -235,15 +216,6 @@ $(document).ready(function () {
     });
   }
 });
-
-////////////////////////////////////////
-//
-// Tooltips
-//
-////////////////////////////////////////
-// $(document).ready(function(){
-//     $('[data-toggle="tooltip"]').tooltip();
-// });
 
 ////////////////////////////////////////
 //
