@@ -147,11 +147,7 @@
                   <a class="d-block" href="services.html">SERVICIOS</a>
                 </li>
                 <li>
-                  <a href="JavaScript:void(0)">PROYECTOS</a>
-                  <ul class="dropdown fs--1">
-                    <li><a href="current.html">PROYECTOS EN CURSO</a></li>
-                    <li><a href="past.html">PROYECTOS PASADOS</a></li>
-                  </ul>
+                  <a class="d-block" href="projects.html">PROYECTOS</a>
                 </li>
                 <li>
                   <a class="d-block" href="contact.html">CONTACTO</a>
@@ -171,8 +167,6 @@
           </nav>
         </div>
       </div>
-
-      <!-- Hero Section -->
       <section>
         <div>
           <div
@@ -187,11 +181,8 @@
             <div class="row pt-6">
               <div class="col-md-8 px-md-0 color-white">
                 <div class="overflow-hidden">
-                  <h1
-                    class="color-white fs-4 fs-md-5 mb-0 zopacity"
-                    id="project-title"
-                  >
-                    Cargando proyecto...
+                  <h1 class="color-white fs-4 fs-md-5 mb-0 zopacity">
+                    Proyectos
                   </h1>
                   <div
                     class="nav zopacity"
@@ -202,17 +193,8 @@
                       <li class="breadcrumb-item">
                         <a class="color-white" href="../index.html">Inicio</a>
                       </li>
-                      <li class="breadcrumb-item">
-                        <a class="color-white" href="current.html"
-                          >Proyectos Pasados</a
-                        >
-                      </li>
-                      <li
-                        class="breadcrumb-item active"
-                        aria-current="page"
-                        id="breadcrumb-project-name"
-                      >
-                        Cargando...
+                      <li class="breadcrumb-item active" aria-current="page">
+                        Proyectos
                       </li>
                     </ol>
                   </div>
@@ -225,170 +207,51 @@
         <!--/.container-->
       </section>
 
-      <!-- Project Details Section -->
-      <section class="project-section background-11">
-        <div class="container" style="padding: 0">
-          <!-- Indicador de carga -->
-          <div id="loading-indicator" class="text-center">
+      <section class="background-11">
+        <div class="container">
+          <!-- INICIO DE CONTENEDOR DE PROYECTOS -->
+          <div id="loading-indicator" class="text-center py-5">
             <div class="spinner-border text-primary" role="status">
-              <span class="sr-only">Cargando proyecto...</span>
+              <span class="sr-only">Cargando proyectos...</span>
             </div>
-            <p class="mt-3">Cargando detalles del proyecto...</p>
+            <p class="mt-2">Cargando proyectos...</p>
           </div>
 
-          <!-- Contenido del proyecto -->
-          <div
-            id="project-content"
-            class="project-container"
-            style="display: none"
-          >
-            <!-- Carousel -->
-            <div
-              id="project-carousel"
-              class="carousel slide project-carousel"
-              data-ride="carousel"
-            >
-              <div class="carousel-inner" id="carousel-items">
-                <!-- Las imágenes se cargarán aquí -->
-              </div>
+          <div id="projects-container">
+            <!-- Los proyectos se cargarán aquí dinámicamente -->
+          </div>
+          <!-- FIN DE CONTENEDOR DE PROYECTOS -->
+        </div>
+        <!--/.container-->
+      </section>
 
-              <!-- Indicadores del carousel -->
-              <ol class="carousel-indicators" id="carousel-indicators">
-                <!-- Los indicadores se generarán dinámicamente -->
-              </ol>
-
-              <!-- Controles del carousel -->
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-slide="prev"
-              >
-                <span
-                  class="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="sr-only">Anterior</span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-slide="next"
-              >
-                <span
-                  class="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="sr-only">Siguiente</span>
-              </button>
-            </div>
-
-            <!-- Detalles del proyecto -->
-            <div class="project-details">
-              <!-- Cabecera con título y estado -->
-              <div class="project-header">
-                <h2 class="project-title" id="detail-project-name">
-                  Detalles del Proyecto
-                </h2>
-                <span class="status-badge" id="project-status">Estado</span>
-              </div>
-
-              <!-- Descripción del proyecto -->
-              <div class="project-description mb-4" id="project-description">
-                <!-- La descripción se cargará aquí dinámicamente -->
-              </div>
-
-              <!-- Información principal -->
-              <div class="project-info-card">
-                <div class="card-section">
-                  <h3 class="section-title">Información General</h3>
-                  <div class="info-grid">
-                    <div class="info-item">
-                      <div class="info-label">
-                        <i class="fa fa-map-marker"></i>Ubicación
-                      </div>
-                      <div class="info-value" id="project-location">-</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">
-                        <i class="fa fa-building"></i>Tipo
-                      </div>
-                      <div class="info-value" id="project-type">-</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">
-                        <i class="fa fa-expand"></i>Área
-                      </div>
-                      <div class="info-value" id="project-area">-</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">
-                        <i class="fa fa-calendar"></i>Fecha de Adquisición y
-                        Venta
-                      </div>
-                      <div class="info-value">
-                        <span id="project-buy-date">-</span> -
-                        <span id="project-sell-date">-</span>
-                      </div>
-                    </div>
-                  </div>
+      <div class="container">
+        <div>
+          <div class="newsletter-container">
+            <h3 class="newsletter-title">Descubre nuevas oportunidades</h3>
+            <p class="newsletter-description">
+              Suscríbete a nuestro boletín informativo para recibir
+              actualizaciones sobre nuevos proyectos y oportunidades.
+            </p>
+            <form class="newsletter-form">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  type="email"
+                  placeholder="Introduce tu email"
+                  aria-label="Email address"
+                  required
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-subscribe" type="submit">
+                    <span class="fw-600">ENVIAR</span>
+                  </button>
                 </div>
               </div>
-
-              <!-- Información Financiera -->
-              <div class="project-info-card">
-                <div class="card-section">
-                  <h3 class="section-title">Información Financiera</h3>
-
-                  <!-- Valores principales -->
-                  <div class="financial-grid">
-                    <div class="financial-item">
-                      <div class="financial-label">Precio de Compra</div>
-                      <div class="financial-value" id="project-buy-price">
-                        -
-                      </div>
-                    </div>
-                    <div class="financial-item">
-                      <div class="financial-label">Gastos</div>
-                      <div class="financial-value" id="project-expenses">-</div>
-                    </div>
-                    <div class="financial-item">
-                      <div class="financial-label">Precio de Venta</div>
-                      <div class="financial-value" id="project-sell-price">
-                        -
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Métricas -->
-                  <div class="metrics-grid">
-                    <div class="metric-item">
-                      <div class="metric-icon">
-                        <i class="fa fa-line-chart"></i>
-                      </div>
-                      <div class="metric-value" id="project-margin">-</div>
-                      <div class="metric-label">Margen</div>
-                    </div>
-                    <div class="metric-item">
-                      <div class="metric-icon">
-                        <i class="fa fa-percent"></i>
-                      </div>
-                      <div class="metric-value" id="project-irr">-</div>
-                      <div class="metric-label">TIR</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Botón de contacto -->
-              <div class="contact-btn-container">
-                <a href="contact.html" class="btn contact-btn">
-                  <i class="fa fa-envelope mr-2"></i>Solicitar Más Información
-                </a>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- Footer -->
       <footer>
@@ -432,14 +295,7 @@
                       <a href="contact.html" class="footer-link">Contacto</a>
                     </li>
                     <li>
-                      <a href="past.html" class="footer-link"
-                        >Proyectos Pasados</a
-                      >
-                    </li>
-                    <li>
-                      <a href="current.html" class="footer-link"
-                        >Proyectos en Curso</a
-                      >
+                      <a href="projects.html" class="footer-link">Proyectos</a>
                     </li>
                   </ul>
                 </div>
@@ -509,7 +365,7 @@
         <a href="#" class="language-option active" data-lang="es">
           <span class="language-flag">🇪🇸</span> Español
         </a>
-        <a href="../en/past.html" class="language-option" data-lang="en">
+        <a href="../en/projects.html" class="language-option" data-lang="en">
           <span class="language-flag">🇬🇧</span> English
         </a>
       </div>
@@ -532,6 +388,7 @@
     <script src="../assets/js/config.js"></script>
     <script src="../assets/js/core.js"></script>
     <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/project.js"></script>
+    <script src="../assets/js/projects.js"></script>
+    <script src="../assets/js/contact.js"></script>
   </body>
 </html>

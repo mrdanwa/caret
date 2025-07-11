@@ -145,11 +145,7 @@
                   <a class="d-block" href="services.html">SERVICES</a>
                 </li>
                 <li>
-                  <a href="JavaScript:void(0)">PROJECTS</a>
-                  <ul class="dropdown fs--1">
-                    <li><a href="current.html">CURRENT PROJECTS</a></li>
-                    <li><a href="past.html">PAST PROJECTS</a></li>
-                  </ul>
+                  <a class="d-block" href="projects.html">PROJECTS</a>
                 </li>
                 <li>
                   <a class="d-block" href="contact.html">CONTACT</a>
@@ -169,6 +165,8 @@
           </nav>
         </div>
       </div>
+
+      <!-- Hero Section -->
       <section>
         <div>
           <div
@@ -183,8 +181,11 @@
             <div class="row pt-6">
               <div class="col-md-8 px-md-0 color-white">
                 <div class="overflow-hidden">
-                  <h1 class="color-white fs-4 fs-md-5 mb-0 zopacity">
-                    Past Projects
+                  <h1
+                    class="color-white fs-4 fs-md-5 mb-0 zopacity"
+                    id="project-title"
+                  >
+                    Loading Projects...
                   </h1>
                   <div
                     class="nav zopacity"
@@ -193,10 +194,17 @@
                   >
                     <ol class="breadcrumb fs-1 pl-0 fw-700">
                       <li class="breadcrumb-item">
-                        <a class="color-white" href="../en.html">Home</a>
+                        <a class="color-white" href="../en.html">Inicio</a>
                       </li>
-                      <li class="breadcrumb-item active" aria-current="page">
-                        Past Projects
+                      <li class="breadcrumb-item">
+                        <a class="color-white" href="projects.html">Projects</a>
+                      </li>
+                      <li
+                        class="breadcrumb-item active"
+                        aria-current="page"
+                        id="breadcrumb-project-name"
+                      >
+                        Loading...
                       </li>
                     </ol>
                   </div>
@@ -209,51 +217,169 @@
         <!--/.container-->
       </section>
 
-      <section class="background-11">
-        <div class="container">
-          <!-- INICIO DE CONTENEDOR DE PROYECTOS -->
-          <div id="loading-indicator" class="text-center py-5">
+      <!-- Project Details Section -->
+      <section class="project-section background-11">
+        <div class="container" style="padding: 0">
+          <!-- Indicador de carga -->
+          <div id="loading-indicator" class="text-center">
             <div class="spinner-border text-primary" role="status">
-              <span class="sr-only">Loading Projects...</span>
+              <span class="sr-only">Loading proyects...</span>
             </div>
-            <p class="mt-2">Loading Projects...</p>
+            <p class="mt-3">Loading project details...</p>
           </div>
 
-          <div id="projects-container">
-            <!-- Los proyectos se cargarán aquí dinámicamente -->
-          </div>
-          <!-- FIN DE CONTENEDOR DE PROYECTOS -->
-        </div>
-        <!--/.container-->
-      </section>
+          <!-- Contenido del proyecto -->
+          <div
+            id="project-content"
+            class="project-container"
+            style="display: none"
+          >
+            <!-- Carousel -->
+            <div
+              id="project-carousel"
+              class="carousel slide project-carousel"
+              data-ride="carousel"
+            >
+              <div class="carousel-inner" id="carousel-items">
+                <!-- Las imágenes se cargarán aquí -->
+              </div>
 
-      <div class="container">
-        <div>
-          <div class="newsletter-container">
-            <h3 class="newsletter-title">Discover new opportunities</h3>
-            <p class="newsletter-description">
-              Subscribe to our newsletter to receive updates on new projects and
-              opportunities.
-            </p>
-            <form class="newsletter-form">
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  type="email"
-                  placeholder="Introduce your email"
-                  aria-label="Email address"
-                  required
-                />
-                <div class="input-group-append">
-                  <button class="btn btn-subscribe" type="submit">
-                    <span class="fw-600">SEND</span>
-                  </button>
+              <!-- Indicadores del carousel -->
+              <ol class="carousel-indicators" id="carousel-indicators">
+                <!-- Los indicadores se generarán dinámicamente -->
+              </ol>
+
+              <!-- Controles del carousel -->
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="sr-only">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="sr-only">Next</span>
+              </button>
+            </div>
+
+            <!-- Detalles del proyecto -->
+            <div class="project-details">
+              <!-- Cabecera con título y estado -->
+              <div class="project-header">
+                <h2 class="project-title" id="detail-project-name">
+                  Project Deteils
+                </h2>
+                <span class="status-badge" id="project-status">Status</span>
+              </div>
+
+              <!-- Descripción del proyecto -->
+              <div class="project-description mb-4" id="project-description">
+                <!-- La descripción se cargará aquí dinámicamente -->
+              </div>
+
+              <!-- Información principal -->
+              <div class="project-info-card">
+                <div class="card-section">
+                  <h3 class="section-title">General Information</h3>
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <div class="info-label">
+                        <i class="fa fa-map-marker"></i>Location
+                      </div>
+                      <div class="info-value" id="project-location">-</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">
+                        <i class="fa fa-building"></i>Type
+                      </div>
+                      <div class="info-value" id="project-type">-</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">
+                        <i class="fa fa-expand"></i>Area
+                      </div>
+                      <div class="info-value" id="project-area">-</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">
+                        <i class="fa fa-calendar"></i>Acquisition & Sale Date
+                      </div>
+                      <div class="info-value">
+                        <span id="project-buy-date">-</span> -
+                        <span id="project-sell-date">-</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </form>
+
+              <!-- Información Financiera -->
+              <div class="project-info-card">
+                <div class="card-section">
+                  <h3 class="section-title">Financial Information</h3>
+
+                  <!-- Valores principales -->
+                  <div class="financial-grid">
+                    <div class="financial-item">
+                      <div class="financial-label">Purchase Price</div>
+                      <div class="financial-value" id="project-buy-price">
+                        -
+                      </div>
+                    </div>
+                    <div class="financial-item">
+                      <div class="financial-label">Expenses</div>
+                      <div class="financial-value" id="project-expenses">-</div>
+                    </div>
+                    <div class="financial-item">
+                      <div class="financial-label">Sale Price</div>
+                      <div class="financial-value" id="project-sell-price">
+                        -
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Métricas -->
+                  <div class="metrics-grid">
+                    <div class="metric-item">
+                      <div class="metric-icon">
+                        <i class="fa fa-line-chart"></i>
+                      </div>
+                      <div class="metric-value" id="project-margin">-</div>
+                      <div class="metric-label">Margin</div>
+                    </div>
+                    <div class="metric-item">
+                      <div class="metric-icon">
+                        <i class="fa fa-percent"></i>
+                      </div>
+                      <div class="metric-value" id="project-irr">-</div>
+                      <div class="metric-label">IRR</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botón de contacto -->
+              <div class="contact-btn-container">
+                <a href="contact.html" class="btn contact-btn">
+                  <i class="fa fa-envelope mr-2"></i>Request More Information
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- Footer -->
       <footer>
@@ -297,12 +423,7 @@
                       <a href="contact.html" class="footer-link">Contact</a>
                     </li>
                     <li>
-                      <a href="past.html" class="footer-link">Past Projects</a>
-                    </li>
-                    <li>
-                      <a href="current.html" class="footer-link"
-                        >Current Projects</a
-                      >
+                      <a href="projects.html" class="footer-link">Projects</a>
                     </li>
                   </ul>
                 </div>
@@ -372,7 +493,7 @@
         <a href="#" class="language-option active" data-lang="es">
           <span class="language-flag">🇬🇧</span> English
         </a>
-        <a href="../es/past.html" class="language-option" data-lang="en">
+        <a href="../es/projects.html" class="language-option" data-lang="en">
           <span class="language-flag">🇪🇸</span> Español
         </a>
       </div>
@@ -395,7 +516,6 @@
     <script src="../assets/js/config.js"></script>
     <script src="../assets/js/core.js"></script>
     <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/en_projects.js"></script>
-    <script src="../assets/js/en_contact.js"></script>
+    <script src="../assets/js/en_project.js"></script>
   </body>
 </html>

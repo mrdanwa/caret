@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Si no hay ID de proyecto, mostrar mensaje de error
     document.getElementById("loading-indicator").innerHTML = `
   <div class="alert alert-danger" role="alert">
-    No se ha especificado un proyecto. Por favor, vuelva a la <a href="current.html">lista de proyectos</a>.
+    No se ha especificado un proyecto. Por favor, vuelva a la <a href="projects.html">lista de proyectos</a>.
   </div>
   `;
     return;
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error:", error);
       document.getElementById("loading-indicator").innerHTML = `
     <div class="alert alert-danger" role="alert">
-      Error al cargar los detalles del proyecto. Por favor, intente nuevamente más tarde o vuelva a la <a href="current.html">lista de proyectos</a>.
+      Error al cargar los detalles del proyecto. Por favor, intente nuevamente más tarde o vuelva a la <a href="projects.html">lista de proyectos</a>.
     </div>
   `;
     });

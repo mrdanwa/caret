@@ -1,36 +1,22 @@
-// Script unificado para cargar dinámicamente los proyectos (pasados y actuales)
+// Script unificado para cargar dinámicamente todos los proyectos (pasados y actuales)
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Determinar qué tipo de proyectos cargar basado en la página actual
-  const currentPage = window.location.pathname.split("/").pop();
-  const isCurrentProjects = currentPage.includes("current");
-  const projectStatus = isCurrentProjects ? "current" : "past";
-  const detailPagePrefix = isCurrentProjects ? "currentproject" : "pastproject";
-
   // Array para almacenar todos los proyectos
   let allProjects = [];
 
-  // Función para obtener todos los proyectos (recursiva para manejar paginación)
-  async function fetchAllProjects(
-    url = `https://caret-ek3gf.ondigitalocean.app/api/projects/?status=${projectStatus}`
-  ) {
+  // Función para obtener todos los proyectos de un tipo (recursiva para manejar paginación)
+  async function fetchProjectsByStatus(status, url = null) {
+    const baseUrl = `https://caret-ek3gf.ondigitalocean.app/api/projects/?status=${status}`;
+    const fetchUrl = url || baseUrl;
     try {
-      const response = await fetch(url);
+      const response = await fetch(fetchUrl);
       if (!response.ok) {
         throw new Error("Error al obtener los proyectos");
       }
-
       const data = await response.json();
-
-      // Añadir los resultados actuales al array de todos los proyectos
       allProjects = allProjects.concat(data.results);
-
-      // Si hay una página siguiente, seguir obteniendo proyectos
       if (data.next) {
-        await fetchAllProjects(data.next);
-      } else {
-        // Una vez que se han cargado todos los proyectos, mostrarlos
-        displayProjects();
+        await fetchProjectsByStatus(status, data.next);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -42,15 +28,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Función para cargar ambos tipos de proyectos y mostrarlos juntos
+  async function fetchAllProjects() {
+    await Promise.all([
+      fetchProjectsByStatus("current"),
+      fetchProjectsByStatus("past"),
+    ]);
+    displayProjects();
+  }
+
   // Función para mostrar los proyectos
   function displayProjects() {
     // Si no hay proyectos, mostrar mensaje
     if (allProjects.length === 0) {
       document.getElementById("loading-indicator").innerHTML = `
             <div class="alert alert-info" role="alert">
-              No se encontraron proyectos ${
-                isCurrentProjects ? "en curso" : "pasados"
-              }.
+              No se encontraron proyectos.
             </div>
           `;
       return;
@@ -140,9 +133,10 @@ document.addEventListener("DOMContentLoaded", function () {
       : `${project.sell_year}`;
 
     // Texto condicional basado en si es un proyecto actual o pasado
-    const returnText = isCurrentProjects
-      ? `Proyecto de ${project.project_type.toLowerCase()} de ${formattedArea} m² realizado en ${buyDate}. Se adquirió por ${formattedBuyPrice} €, con unos gastos asociados de ${totalExpenses} €. Se espera un retorno de ${formattedSellPrice} € en ${sellDate}, generando un margen de ${formattedMargin} € y una TIR del ${formattedIRR}%.`
-      : `Proyecto de ${project.project_type.toLowerCase()} de ${formattedArea} m² realizado en ${buyDate}. Se adquirió por ${formattedBuyPrice} €, con unos gastos asociados de ${totalExpenses} €. Posteriormente, se vendió por ${formattedSellPrice} €, generando un margen de ${formattedMargin} € y una TIR del ${formattedIRR}%.`;
+    const returnText =
+      project.status === "current"
+        ? `Proyecto de ${project.project_type.toLowerCase()} de ${formattedArea} m² realizado en ${buyDate}. Se adquirió por ${formattedBuyPrice} €, con unos gastos asociados de ${totalExpenses} €. Se espera un retorno de ${formattedSellPrice} € en ${sellDate}, generando un margen de ${formattedMargin} € y una TIR del ${formattedIRR}%.`
+        : `Proyecto de ${project.project_type.toLowerCase()} de ${formattedArea} m² realizado en ${buyDate}. Se adquirió por ${formattedBuyPrice} €, con unos gastos asociados de ${totalExpenses} €. Posteriormente, se vendió por ${formattedSellPrice} €, generando un margen de ${formattedMargin} € y una TIR del ${formattedIRR}%.`;
 
     return `
         <div class="background-white pb-4 h-100 radius-secondary" style="display: flex; flex-direction: column;">
@@ -159,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
           />
           <div class="px-4 pt-4" style="flex-grow: 1; display: flex; flex-direction: column;">
             <div class="overflow-hidden">
-              <a href="${detailPagePrefix}.html?id=${project.id}">
+              <a href="project.html?id=${project.id}">
                 <h5>${project.name}</h5>
               </a>
             </div>
@@ -173,7 +167,9 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="overflow-hidden" style="margin-top: auto;">
               <div class="d-inline-block">
-                <a class="d-flex align-items-center" href="${detailPagePrefix}.html?id=${project.id}"
+                <a class="d-flex align-items-center" href="project.html?id=${
+                  project.id
+                }"
                   >Más Información
                   <div class="overflow-hidden ml-2">
                     <span class="d-inline-block">&xrarr;</span>
