@@ -56,42 +56,29 @@ document.addEventListener("DOMContentLoaded", function () {
       const buyDate = formatDate(project.buy_year, project.buy_month);
       document.getElementById("project-buy-date").textContent = buyDate;
 
-      // Formatear valores numéricos
-      const buyPrice = parseFloat(project.buy_price).toLocaleString("es-ES", {
+      // Calcular y mostrar el coste total (precio de compra + gastos)
+      let cost = 0;
+      if (project.buy_price) {
+        cost += parseFloat(project.buy_price);
+      }
+      if (project.buy_expenses) {
+        cost += parseFloat(project.buy_expenses);
+      }
+      if (project.sell_expenses) {
+        cost += parseFloat(project.sell_expenses);
+      }
+      if (project.other_expenses) {
+        cost += parseFloat(project.other_expenses);
+      }
+      if (project.financing_expenses) {
+        cost += parseFloat(project.financing_expenses);
+      }
+      const costFormatted = cost.toLocaleString("es-ES", {
         maximumFractionDigits: 0,
       });
       document.getElementById(
-        "project-buy-price"
-      ).textContent = `${buyPrice} €`;
-
-      // Calcular y mostrar gastos totales
-      let expenses = 0;
-
-      // Gastos de compra si existen
-      if (project.buy_expenses) {
-        expenses += parseFloat(project.buy_expenses);
-      }
-
-      // Gastos de venta si existen
-      if (project.sell_expenses) {
-        expenses += parseFloat(project.sell_expenses);
-      }
-
-      // Otros gastos si existen
-      if (project.other_expenses) {
-        expenses += parseFloat(project.other_expenses);
-      }
-
-      // Gastos de financiación si existen
-      if (project.financing_expenses) {
-        expenses += parseFloat(project.financing_expenses);
-      }
-
-      expenses = expenses.toLocaleString("es-ES", {
-        maximumFractionDigits: 0,
-      });
-
-      document.getElementById("project-expenses").textContent = `${expenses} €`;
+        "project-cost"
+      ).textContent = `${costFormatted} €`;
 
       // Formatear precio de venta
       const sellPrice = parseFloat(project.sell_price).toLocaleString("es-ES", {

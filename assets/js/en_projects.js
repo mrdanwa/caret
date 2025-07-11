@@ -68,22 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to create HTML for a project
   function createProjectHTML(project) {
-    // Format numbers for Spanish locale (for consistency)
-    const formattedArea = parseFloat(project.area).toLocaleString("es-ES", {
-      maximumFractionDigits: 0,
-    });
-    const formattedBuyPrice = parseFloat(project.buy_price).toLocaleString(
-      "es-ES",
-      {
-        maximumFractionDigits: 0,
-      }
-    );
-    const formattedSellPrice = parseFloat(project.sell_price).toLocaleString(
-      "es-ES",
-      {
-        maximumFractionDigits: 0,
-      }
-    );
+    // Format margin and IRR for Spanish locale (for consistency)
     const formattedMargin = parseFloat(project.margin).toLocaleString("es-ES", {
       maximumFractionDigits: 0,
     });
@@ -91,39 +76,14 @@ document.addEventListener("DOMContentLoaded", function () {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
-    const formattedBuyExpenses = parseFloat(
-      project.buy_expenses
-    ).toLocaleString("es-ES", {
-      maximumFractionDigits: 0,
-    });
-    const formattedSellExpenses = parseFloat(
-      project.sell_expenses
-    ).toLocaleString("es-ES", {
-      maximumFractionDigits: 0,
-    });
-    const formattedOtherExpenses = parseFloat(
-      project.other_expenses
-    ).toLocaleString("es-ES", {
-      maximumFractionDigits: 0,
-    });
-    const totalExpenses = (
-      parseFloat(project.buy_expenses) +
-      parseFloat(project.sell_expenses) +
-      parseFloat(project.other_expenses) +
-      parseFloat(project.financing_expenses)
-    ).toLocaleString("es-ES", {
-      maximumFractionDigits: 0,
-    });
-    const buyDate = `${project.buy_month}/${project.buy_year}`;
-    const sellDate = project.sell_month
-      ? `${project.sell_month}/${project.sell_year}`
-      : `${project.sell_year}`;
 
     // Conditional text based on project type
-    const returnText =
-      project.status === "current"
-        ? `Project of ${project.project_type_en.toLowerCase()} with ${formattedArea} m² carried out in ${buyDate}. It was acquired for €${formattedBuyPrice}, with associated expenses of €${totalExpenses}. An expected return of €${formattedSellPrice} is projected in ${sellDate}, generating a margin of €${formattedMargin} and an IRR of ${formattedIRR}%.`
-        : `Project of ${project.project_type_en.toLowerCase()} with ${formattedArea} m² carried out in ${buyDate}. It was acquired for €${formattedBuyPrice}, with associated expenses of €${totalExpenses}. It was later sold for €${formattedSellPrice}, generating a margin of €${formattedMargin} and an IRR of ${formattedIRR}%.`;
+    let returnText;
+    if (project.status === "current") {
+      returnText = `Project of ${project.project_type_en.toLowerCase()} with an estimated margin of €${formattedMargin} and estimated IRR of ${formattedIRR}%.`;
+    } else {
+      returnText = `Project of ${project.project_type_en.toLowerCase()} with a margin of €${formattedMargin} and IRR of ${formattedIRR}%.`;
+    }
 
     return `
         <div class="background-white pb-4 h-100 radius-secondary" style="display: flex; flex-direction: column;">
