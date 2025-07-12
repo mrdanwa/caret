@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (document.querySelector(".flexslider")) {
       heroSection = document.querySelector(".flexslider");
-    } else if (document.querySelector(".background-holder.overlay")) {
+    } else if (document.querySelector(".background-holder")) {
       heroSection = document.querySelector("section:first-of-type");
     }
 
