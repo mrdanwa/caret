@@ -1,163 +1,204 @@
-// Script unificado para cargar dinámicamente todos los proyectos (pasados y actuales)
+// Simplified Project Manager
+class ProjectManager {
+  constructor() {
+    this.apiUrl = "https://caret-ek3gf.ondigitalocean.app/api/projects/";
+    this.projectsPerPage = 18;
+    this.currentPage = 1;
+    this.totalPages = 1;
+    this.currentFilter = "";
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Array para almacenar todos los proyectos
-  let allProjects = [];
+    this.container = document.getElementById("projects-container");
+    this.loading = document.getElementById("loading-indicator");
+    this.filter = document.getElementById("projects-filter");
 
-  // Función para obtener todos los proyectos de un tipo (recursiva para manejar paginación)
-  async function fetchProjectsByStatus(status, url = null) {
-    const baseUrl = `https://caret-ek3gf.ondigitalocean.app/api/projects/?status=${status}`;
-    const fetchUrl = url || baseUrl;
+    this.init();
+  }
+
+  init() {
+    this.loadProjects();
+    this.filter?.addEventListener("change", (e) => {
+      this.currentFilter = e.target.value;
+      this.loadProjects(1);
+    });
+  }
+
+  async loadProjects(page = 1) {
+    this.currentPage = page;
+    this.container.innerHTML = "";
+    this.loading.style.display = "block";
+
     try {
-      const response = await fetch(fetchUrl);
-      if (!response.ok) {
-        throw new Error("Error al obtener los proyectos");
-      }
+      const params = new URLSearchParams({ page });
+      if (this.currentFilter) params.append("status", this.currentFilter);
+
+      const response = await fetch(`${this.apiUrl}?${params}`);
       const data = await response.json();
-      allProjects = allProjects.concat(data.results);
-      if (data.next) {
-        await fetchProjectsByStatus(status, data.next);
+
+      this.totalPages = Math.ceil(data.count / this.projectsPerPage);
+      this.loading.style.display = "none";
+
+      if (data.results.length === 0) {
+        this.container.innerHTML =
+          '<div class="alert alert-info">No se encontraron proyectos.</div>';
+        return;
       }
+
+      this.renderContent(data.results);
     } catch (error) {
-      console.error("Error:", error);
-      document.getElementById("loading-indicator").innerHTML = `
-            <div class="alert alert-danger" role="alert">
-              Error al cargar los proyectos. Por favor, intente nuevamente más tarde.
-            </div>
-          `;
+      this.loading.style.display = "none";
+      this.container.innerHTML =
+        '<div class="alert alert-danger">Error al cargar los proyectos.</div>';
     }
   }
 
-  // Función para cargar ambos tipos de proyectos y mostrarlos juntos
-  async function fetchAllProjects() {
-    await Promise.all([
-      fetchProjectsByStatus("current"),
-      fetchProjectsByStatus("past"),
-    ]);
-    displayProjects();
-  }
-
-  // Función para mostrar los proyectos
-  function displayProjects() {
-    // Si no hay proyectos, mostrar mensaje
-    if (allProjects.length === 0) {
-      document.getElementById("loading-indicator").innerHTML = `
-            <div class="alert alert-info" role="alert">
-              No se encontraron proyectos.
-            </div>
-          `;
-      return;
-    }
-
-    // Ocultar el indicador de carga
-    document.getElementById("loading-indicator").style.display = "none";
-
-    // Contenedor de proyectos
-    const projectsContainer = document.getElementById("projects-container");
-
-    // En lugar de crear filas manualmente, dejar que Bootstrap maneje el flujo de columnas
+  renderContent(projects) {
+    // Render projects
     const row = document.createElement("div");
     row.className = "row";
-    projectsContainer.appendChild(row);
 
-    // Añadir todos los proyectos a una única fila
-    allProjects.forEach((project) => {
-      // Crear elemento de columna para cada proyecto
+    projects.forEach((project) => {
+      const isCurrent = project.status === "current";
+      const margin = parseFloat(project.margin).toLocaleString("es-ES", {
+        maximumFractionDigits: 0,
+      });
+      const irr = parseFloat(project.irr).toLocaleString("es-ES", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+
       const col = document.createElement("div");
       col.className = "col-md-6 col-lg-4 py-0 mt-4";
-
-      // Añadir el HTML del proyecto a la columna
-      col.innerHTML = createProjectHTML(project);
-
-      // Añadir la columna a la fila
-      row.appendChild(col);
-    });
-
-    // Reinicializar animaciones y otros componentes del tema
-    if (typeof window.reInitializeComponents === "function") {
-      window.reInitializeComponents();
-    }
-  }
-
-  // Función para crear HTML de un proyecto
-  function createProjectHTML(project) {
-    // Formatear los valores numéricos con puntos y comas apropiados para español
-    const formattedMargin = parseFloat(project.margin).toLocaleString("es-ES", {
-      maximumFractionDigits: 0,
-    });
-    const formattedIRR = parseFloat(project.irr).toLocaleString("es-ES", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-
-    // Estado visual
-    let statusText = "";
-    let statusColor = "";
-    if (project.status === "current") {
-      statusText = "En curso";
-      statusColor = "#004225";
-    } else {
-      statusText = "Finalizado";
-      statusColor = "#949494";
-    }
-
-    // Texto condicional basado en si es un proyecto actual o pasado
-    let returnText;
-    if (project.status === "current") {
-      returnText = `Proyecto de ${project.project_type.toLowerCase()} con una margen estimada de ${formattedMargin} € y TIR estimada de ${formattedIRR}%.`;
-    } else {
-      returnText = `Proyecto de ${project.project_type.toLowerCase()} con una margen de ${formattedMargin} € y TIR de ${formattedIRR}%.`;
-    }
-
-    return `
+      col.innerHTML = `
         <div class="background-white pb-4 h-100 radius-secondary" style="display: flex; flex-direction: column;">
           <div style="position: relative;">
-            <img
-              class="w-100 radius-tr-secondary radius-tl-secondary"
-              src="${
-                project.image
-                  ? project.image
-                  : "../assets/images/images/caret.webp"
-              }"
-              alt="${project.name}"
-              onerror="this.src='../assets/images/images/caret.webp';"
-              style="height: 225px; object-fit: cover;"
-            />
-            <span class="badge badge-pill" style="position: absolute; top: 12px; left: 12px; background: ${statusColor}; color: #fff; font-size: 0.85rem; z-index: 2;">
-              ${statusText}
+            <img class="w-100 radius-tr-secondary radius-tl-secondary" 
+                 src="${project.image || "../assets/images/images/caret.webp"}" 
+                 alt="${project.name}" 
+                 onerror="this.src='../assets/images/images/caret.webp';" 
+                 style="height: 225px; object-fit: cover;" />
+            <span class="badge badge-pill" style="position: absolute; top: 12px; left: 12px; background: ${
+              isCurrent ? "#004225" : "#949494"
+            }; color: #fff; font-size: 0.85rem; z-index: 2;">
+              ${isCurrent ? "En curso" : "Finalizado"}
             </span>
           </div>
           <div class="px-4 pt-4" style="flex-grow: 1; display: flex; flex-direction: column;">
             <div class="overflow-hidden">
-              <a href="project.html?id=${project.id}">
-                <h5>${project.name}</h5>
-              </a>
+              <a href="project.html?id=${project.id}"><h5>${
+        project.name
+      }</h5></a>
             </div>
             <div class="overflow-hidden">
               <p class="color-7">${project.location}</p>
             </div>
             <div class="overflow-hidden">
-              <p class="mt-3">
-                ${returnText}
-              </p>
+              <p class="mt-3">Proyecto de ${project.project_type.toLowerCase()} con una margen ${
+        isCurrent ? "estimada" : ""
+      } de ${margin} € y TIR ${isCurrent ? "estimada" : ""} de ${irr}%.</p>
             </div>
             <div class="overflow-hidden" style="margin-top: auto;">
               <div class="d-inline-block">
                 <a class="d-flex align-items-center" href="project.html?id=${
                   project.id
-                }"
-                  >Más Información
+                }">
+                  Más Información
                   <div class="overflow-hidden ml-2">
                     <span class="d-inline-block">&xrarr;</span>
-                  </div></a
-                >
+                  </div>
+                </a>
               </div>
             </div>
           </div>
         </div>
       `;
-  }
+      row.appendChild(col);
+    });
 
-  // Iniciar la carga de proyectos
-  fetchAllProjects();
-});
+    this.container.appendChild(row);
+
+    // Render pagination if needed
+    if (this.totalPages > 1) {
+      const pager = document.createElement("div");
+      pager.className = "pager-container";
+
+      const buttons = [];
+      const start = Math.max(1, this.currentPage - 2);
+      const end = Math.min(this.totalPages, this.currentPage + 2);
+
+      // Previous button
+      buttons.push(`<li class="pager-item ${
+        this.currentPage === 1 ? "disabled" : ""
+      }">
+        <button class="pager-btn" data-page="${this.currentPage - 1}" ${
+        this.currentPage === 1 ? "disabled" : ""
+      }>
+          <i class="fa fa-chevron-left"></i>
+        </button>
+      </li>`);
+
+      // Page numbers
+      if (start > 1) {
+        buttons.push(
+          '<li class="pager-item"><button class="pager-btn" data-page="1">1</button></li>'
+        );
+        if (start > 2)
+          buttons.push(
+            '<li class="pager-item"><span class="pager-ellipsis">...</span></li>'
+          );
+      }
+
+      for (let i = start; i <= end; i++) {
+        buttons.push(`<li class="pager-item">
+          <button class="pager-btn ${
+            i === this.currentPage ? "active" : ""
+          }" data-page="${i}">${i}</button>
+        </li>`);
+      }
+
+      if (end < this.totalPages) {
+        if (end < this.totalPages - 1)
+          buttons.push(
+            '<li class="pager-item"><span class="pager-ellipsis">...</span></li>'
+          );
+        buttons.push(
+          `<li class="pager-item"><button class="pager-btn" data-page="${this.totalPages}">${this.totalPages}</button></li>`
+        );
+      }
+
+      // Next button
+      buttons.push(`<li class="pager-item ${
+        this.currentPage === this.totalPages ? "disabled" : ""
+      }">
+        <button class="pager-btn" data-page="${this.currentPage + 1}" ${
+        this.currentPage === this.totalPages ? "disabled" : ""
+      }>
+          <i class="fa fa-chevron-right"></i>
+        </button>
+      </li>`);
+
+      pager.innerHTML = `<div class="pager-wrapper"><ul class="pager-list">${buttons.join(
+        ""
+      )}</ul></div>`;
+      this.container.appendChild(pager);
+
+      // Add click events
+      pager.querySelectorAll(".pager-btn:not([disabled])").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const page = parseInt(e.target.dataset.page);
+          if (page && page !== this.currentPage) {
+            this.loadProjects(page);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        });
+      });
+    }
+
+    // Reinitialize components if needed
+    if (typeof window.reInitializeComponents === "function") {
+      window.reInitializeComponents();
+    }
+  }
+}
+
+// Initialize when DOM is ready
+document.addEventListener("DOMContentLoaded", () => new ProjectManager());

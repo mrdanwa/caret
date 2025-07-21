@@ -736,3 +736,169 @@ footer hr {
     padding: 2rem 0;
   }
 }
+
+/* Filtro de proyectos */
+#projects-filter-container {
+  display: flex;
+  align-items: center;
+  background: #eaf6f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 66, 37, 0.07);
+  width: fit-content;
+  margin: 0.5rem 0 2rem auto;
+}
+
+#projects-filter-icon {
+  color: #004225;
+  font-size: 1.2rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1.5px solid #e0e0e0;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+#projects-filter {
+  min-width: 120px;
+  height: 44px;
+  padding: 0 2.2rem 0 1rem;
+  border: none;
+  border-radius: 0 12px 12px 0;
+  background: #fff;
+  color: #004225;
+  font-size: 1rem;
+  font-weight: 600;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #004225;
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  #projects-filter-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  #projects-filter {
+    min-width: 90px;
+    height: 36px;
+    font-size: 0.95rem;
+    border-radius: 0 10px 10px 0;
+    padding: 0 1.7rem 0 0.7rem;
+  }
+  .select-arrow {
+    right: 0.6rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Pager Styles */
+.pager-container {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+.pager-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 66, 37, 0.1);
+  padding: 0.5rem;
+  border: 1px solid #e8f5e8;
+}
+
+.pager-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pager-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: #004225;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pager-btn:hover:not([disabled]) {
+  background: #e8f5e8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 66, 37, 0.15);
+}
+
+.pager-btn.active {
+  background: #004225;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 66, 37, 0.3);
+}
+
+.pager-btn[disabled] {
+  color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pager-prev,
+.pager-next {
+  font-size: 0.8rem;
+}
+
+.pager-ellipsis {
+  color: #666;
+  font-weight: 600;
+  padding: 0 0.5rem;
+  user-select: none;
+}
+
+/* Responsive pager */
+@media (max-width: 768px) {
+  .pager-wrapper {
+    padding: 0.3rem;
+  }
+  .pager-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+  .pager-list {
+    gap: 0.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pager-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+  .pager-list {
+    gap: 0.1rem;
+  }
+}

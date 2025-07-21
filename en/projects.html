@@ -205,8 +205,22 @@
         <!--/.container-->
       </section>
 
-      <section class="background-11">
+      <section class="background-11 pt-5">
         <div class="container">
+          <div
+            class="d-flex justify-content-end align-items-center mb-4"
+            id="projects-filter-container"
+          >
+            <span id="projects-filter-icon"><i class="fa fa-filter"></i></span>
+            <div class="select-wrapper">
+              <select id="projects-filter" class="form-control">
+                <option value="">All</option>
+                <option value="current">In Progress</option>
+                <option value="past">Completed</option>
+              </select>
+              <span class="select-arrow">▼</span>
+            </div>
+          </div>
           <!-- INICIO DE CONTENEDOR DE PROYECTOS -->
           <div id="loading-indicator" class="text-center py-5">
             <div class="spinner-border text-primary" role="status">
