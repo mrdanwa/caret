@@ -90,6 +90,17 @@ document.addEventListener("DOMContentLoaded", function () {
       maximumFractionDigits: 2,
     });
 
+    // Estado visual
+    let statusText = "";
+    let statusColor = "";
+    if (project.status === "current") {
+      statusText = "En curso";
+      statusColor = "#004225";
+    } else {
+      statusText = "Finalizado";
+      statusColor = "#949494";
+    }
+
     // Texto condicional basado en si es un proyecto actual o pasado
     let returnText;
     if (project.status === "current") {
@@ -100,17 +111,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     return `
         <div class="background-white pb-4 h-100 radius-secondary" style="display: flex; flex-direction: column;">
-          <img
-            class="w-100 radius-tr-secondary radius-tl-secondary"
-            src="${
-              project.image
-                ? project.image
-                : "../assets/images/images/caret.webp"
-            }"
-            alt="${project.name}"
-            onerror="this.src='../assets/images/images/caret.webp';"
-            style="height: 225px; object-fit: cover;"
-          />
+          <div style="position: relative;">
+            <img
+              class="w-100 radius-tr-secondary radius-tl-secondary"
+              src="${
+                project.image
+                  ? project.image
+                  : "../assets/images/images/caret.webp"
+              }"
+              alt="${project.name}"
+              onerror="this.src='../assets/images/images/caret.webp';"
+              style="height: 225px; object-fit: cover;"
+            />
+            <span class="badge badge-pill" style="position: absolute; top: 12px; left: 12px; background: ${statusColor}; color: #fff; font-size: 0.85rem; z-index: 2;">
+              ${statusText}
+            </span>
+          </div>
           <div class="px-4 pt-4" style="flex-grow: 1; display: flex; flex-direction: column;">
             <div class="overflow-hidden">
               <a href="project.html?id=${project.id}">
