@@ -93,3 +93,15 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  var privacyCheck = document.getElementById("privacy-check");
+  var submitBtn = document.getElementById("contact-submit");
+  if (privacyCheck && submitBtn) {
+    privacyCheck.addEventListener("change", function () {
+      submitBtn.disabled = !privacyCheck.checked;
+    });
+    // In case the user reloads and the checkbox is checked
+    submitBtn.disabled = !privacyCheck.checked;
+  }
+});
