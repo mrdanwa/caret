@@ -2,7 +2,7 @@
 class ProjectManager {
   constructor() {
     this.apiUrl = "https://caret-ek3gf.ondigitalocean.app/api/projects/";
-    this.projectsPerPage = 18;
+    this.projectsPerPage = 12;
     this.currentPage = 1;
     this.totalPages = 1;
     this.currentFilter = "";
