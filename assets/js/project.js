@@ -1,263 +1,242 @@
-// Script para cargar datos del proyecto
-document.addEventListener("DOMContentLoaded", function () {
-  // Obtener ID del proyecto de la URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const projectId = urlParams.get("id");
-
-  if (!projectId) {
-    // Si no hay ID de proyecto, mostrar mensaje de error
-    document.getElementById("loading-indicator").innerHTML = `
-  <div class="alert alert-danger" role="alert">
-    No se ha especificado un proyecto. Por favor, vuelva a la <a href="projects.html">lista de proyectos</a>.
-  </div>
-  `;
-    return;
+// Gestor de Detalle de Proyecto
+class ProjectDetailManager {
+  constructor() {
+    this.projectId = this.getProjectIdFromUrl();
+    this.loading = document.getElementById("loading-indicator");
+    this.content = document.getElementById("project-content");
+    this.apiBase = "https://caret-ek3gf.ondigitalocean.app/api/projects/";
+    this.init();
   }
 
-  // URL de la API
-  const apiUrl = `https://caret-ek3gf.ondigitalocean.app/api/projects/${projectId}/`;
+  getProjectIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("id");
+  }
 
-  // Cargar datos del proyecto
-  fetch(apiUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Error al cargar el proyecto");
-      }
-      return response.json();
-    })
-    .then((project) => {
-      // Actualizar título y breadcrumb
-      document.getElementById("project-title").textContent = project.name;
-      document.getElementById("breadcrumb-project-name").textContent =
-        project.name;
-      document.title = `Caret Capital | ${project.name}`;
-
-      // Actualizar detalles del proyecto
-      document.getElementById("detail-project-name").textContent = project.name;
-      document.getElementById("project-location").textContent =
-        project.location;
-      document.getElementById("project-type").textContent =
-        project.project_type;
-      document.getElementById("project-area").textContent = `${parseFloat(
-        project.area
-      ).toLocaleString("es-ES", {
-        maximumFractionDigits: 0,
-      })} m²`;
-
-      // Establecer la descripción del proyecto
-      if (project.description) {
-        document.getElementById("project-description").textContent =
-          project.description;
-      } else {
-        document.getElementById("project-description").style.display = "none";
-      }
-
-      // Establecer fecha de compra
-      const buyDate = formatDate(project.buy_year, project.buy_month);
-      document.getElementById("project-buy-date").textContent = buyDate;
-
-      // Calcular y mostrar el coste total (precio de compra + gastos)
-      let cost = 0;
-      if (project.buy_price) {
-        cost += parseFloat(project.buy_price);
-      }
-      if (project.buy_expenses) {
-        cost += parseFloat(project.buy_expenses);
-      }
-      if (project.sell_expenses) {
-        cost += parseFloat(project.sell_expenses);
-      }
-      if (project.other_expenses) {
-        cost += parseFloat(project.other_expenses);
-      }
-      if (project.financing_expenses) {
-        cost += parseFloat(project.financing_expenses);
-      }
-      const costFormatted = cost.toLocaleString("es-ES", {
-        maximumFractionDigits: 0,
-      });
-      document.getElementById(
-        "project-cost"
-      ).textContent = `${costFormatted} €`;
-
-      // Formatear precio de venta
-      const sellPrice = parseFloat(project.sell_price).toLocaleString("es-ES", {
-        maximumFractionDigits: 0,
-      });
-      document.getElementById(
-        "project-sell-price"
-      ).textContent = `${sellPrice} €`;
-
-      // Establecer fecha de venta si existe
-      if (project.sell_year && project.sell_month) {
-        const sellDate = formatDate(project.sell_year, project.sell_month);
-        document.getElementById("project-sell-date").textContent = sellDate;
-      } else if (!project.sell_month) {
-        document.getElementById("project-sell-date").textContent =
-          project.sell_year;
-      } else {
-        document.getElementById("project-sell-date").textContent = "";
-      }
-
-      // Formatear margen e IRR
-      document.getElementById("project-margin").textContent = `${parseFloat(
-        project.margin
-      ).toLocaleString("es-ES", {
-        maximumFractionDigits: 0,
-      })} €`;
-
-      document.getElementById("project-irr").textContent = `${parseFloat(
-        project.irr
-      ).toLocaleString("es-ES", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })}%`;
-
-      // Establecer clase de estado
-      const statusElement = document.getElementById("project-status");
-      if (project.status === "current") {
-        statusElement.classList.add("status-current");
-        statusElement.textContent = "En Curso";
-      } else {
-        statusElement.classList.add("status-past");
-        statusElement.textContent = "Finalizado";
-      }
-
-      // Cargar imágenes en el carrusel
-      const carouselInner = document.getElementById("carousel-items");
-      const carouselIndicators = document.getElementById("carousel-indicators");
-      let carouselItems = "";
-      let indicators = "";
-
-      // Añadir la imagen principal
-      const mainImage = project.image
-        ? project.image
-        : "../assets/images/images/caret.webp";
-      carouselItems += `
-    <div class="carousel-item active">
-      <img src="${mainImage}" class="d-block w-100" alt="${project.name}">
-    </div>
-  `;
-
-      // Añadir el primer indicador (activo)
-      indicators += `<li data-target="#project-carousel" data-slide-to="0" class="active"></li>`;
-
-      // Añadir imágenes adicionales
-      if (project.additional_images && project.additional_images.length > 0) {
-        project.additional_images.forEach((imgObj, index) => {
-          carouselItems += `
-        <div class="carousel-item">
-          <img src="${imgObj.image}" class="d-block w-100" alt="${project.name} - Imagen adicional">
+  init() {
+    if (!this.projectId) {
+      this.loading.innerHTML = `
+        <div class="alert alert-danger" role="alert">
+          No se ha especificado un proyecto. Por favor, vuelva a la <a href="projects.html">lista de proyectos</a>.
         </div>
       `;
-
-          // Añadir indicadores para imágenes adicionales
-          indicators += `<li data-target="#project-carousel" data-slide-to="${
-            index + 1
-          }"></li>`;
-        });
-      }
-
-      carouselInner.innerHTML = carouselItems;
-      carouselIndicators.innerHTML = indicators;
-
-      // Mostrar el contenido y ocultar el indicador de carga
-      document.getElementById("loading-indicator").style.display = "none";
-      document.getElementById("project-content").style.display = "block";
-
-      // Inicializar el carrusel con todas las imágenes
-      initializeCarousel();
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      document.getElementById("loading-indicator").innerHTML = `
-    <div class="alert alert-danger" role="alert">
-      Error al cargar los detalles del proyecto. Por favor, intente nuevamente más tarde o vuelva a la <a href="projects.html">lista de proyectos</a>.
-    </div>
-  `;
-    });
-});
-
-// Función para formatear fecha (año y mes)
-function formatDate(year, month) {
-  if (!year || !month) return "N/A";
-
-  const months = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
-
-  // Ajustar el mes (si viene en formato 1-12)
-  const monthIndex = parseInt(month) - 1;
-  if (monthIndex >= 0 && monthIndex < 12) {
-    return `${months[monthIndex]} ${year}`;
+      return;
+    }
+    this.loadProject();
   }
 
-  return `${month} ${year}`;
-}
-
-// Inicializar el carrusel
-function initializeCarousel() {
-  // Asegurar que las imágenes están cargadas antes de inicializar el carrusel
-  const carouselImages = document.querySelectorAll("#carousel-items img");
-  let imagesLoaded = 0;
-
-  function checkAllImagesLoaded() {
-    imagesLoaded++;
-    if (imagesLoaded === carouselImages.length) {
-      // Todas las imágenes están cargadas, ahora inicializamos el carrusel
-      $("#project-carousel").carousel();
-
-      // Asegurar que los botones de navegación funcionen
-      const prevButton = document.querySelector(".carousel-control-prev");
-      const nextButton = document.querySelector(".carousel-control-next");
-
-      // Quitar los atributos href que causan el desplazamiento
-      prevButton.removeAttribute("href");
-      nextButton.removeAttribute("href");
-
-      // Agregar listeners para los botones manualmente
-      prevButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation(); // Detener la propagación del evento
-        $("#project-carousel").carousel("prev");
-      });
-
-      nextButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation(); // Detener la propagación del evento
-        $("#project-carousel").carousel("next");
-      });
-
-      // Reinicializar animaciones si es necesario
-      if (typeof window.reInitializeComponents === "function") {
-        window.reInitializeComponents();
-      }
+  async loadProject() {
+    const apiUrl = `${this.apiBase}${this.projectId}/`;
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) throw new Error("Error al cargar el proyecto");
+      const project = await response.json();
+      this.renderProject(project);
+    } catch (error) {
+      console.error("Error:", error);
+      this.loading.innerHTML = `
+        <div class="alert alert-danger" role="alert">
+          Error al cargar los detalles del proyecto. Por favor, intente nuevamente más tarde o vuelva a la <a href="projects.html">lista de proyectos</a>.
+        </div>
+      `;
     }
   }
 
-  // Si no hay imágenes, inicializar de todos modos
-  if (carouselImages.length === 0) {
-    $("#project-carousel").carousel();
-  } else {
-    // Esperar a que cada imagen se cargue
-    carouselImages.forEach((img) => {
-      if (img.complete) {
-        checkAllImagesLoaded();
-      } else {
-        img.addEventListener("load", checkAllImagesLoaded);
-        img.addEventListener("error", checkAllImagesLoaded); // Manejar errores de carga
-      }
+  renderProject(project) {
+    // Título y breadcrumb
+    document.getElementById("project-title").textContent = project.name;
+    document.getElementById("breadcrumb-project-name").textContent =
+      project.name;
+    document.title = `Caret Capital | ${project.name}`;
+
+    // Detalles
+    document.getElementById("detail-project-name").textContent = project.name;
+    document.getElementById("project-location").textContent = project.location;
+    document.getElementById("project-type").textContent = project.project_type;
+    document.getElementById("project-area").textContent = `${parseFloat(
+      project.area
+    ).toLocaleString("es-ES", { maximumFractionDigits: 0 })} m²`;
+
+    // Descripción
+    if (project.description) {
+      document.getElementById("project-description").textContent =
+        project.description;
+      document.getElementById("project-description").style.display = "";
+    } else {
+      document.getElementById("project-description").style.display = "none";
+    }
+
+    // Fecha de compra
+    const buyDate = ProjectDetailManager.formatDate(
+      project.buy_year,
+      project.buy_month
+    );
+    document.getElementById("project-buy-date").textContent = buyDate;
+
+    // Coste total
+    let cost = 0;
+    if (project.buy_price) cost += parseFloat(project.buy_price);
+    if (project.buy_expenses) cost += parseFloat(project.buy_expenses);
+    if (project.sell_expenses) cost += parseFloat(project.sell_expenses);
+    if (project.other_expenses) cost += parseFloat(project.other_expenses);
+    if (project.financing_expenses)
+      cost += parseFloat(project.financing_expenses);
+    const costFormatted = cost.toLocaleString("es-ES", {
+      maximumFractionDigits: 0,
     });
+    document.getElementById("project-cost").textContent = `${costFormatted} €`;
+
+    // Precio de venta
+    const sellPrice = parseFloat(project.sell_price).toLocaleString("es-ES", {
+      maximumFractionDigits: 0,
+    });
+    document.getElementById(
+      "project-sell-price"
+    ).textContent = `${sellPrice} €`;
+
+    // Fecha de venta
+    if (project.sell_year && project.sell_month) {
+      const sellDate = ProjectDetailManager.formatDate(
+        project.sell_year,
+        project.sell_month
+      );
+      document.getElementById("project-sell-date").textContent = sellDate;
+    } else if (!project.sell_month) {
+      document.getElementById("project-sell-date").textContent =
+        project.sell_year;
+    } else {
+      document.getElementById("project-sell-date").textContent = "";
+    }
+
+    // Margen e IRR
+    document.getElementById("project-margin").textContent = `${parseFloat(
+      project.margin
+    ).toLocaleString("es-ES", { maximumFractionDigits: 0 })} €`;
+    document.getElementById("project-irr").textContent = `${parseFloat(
+      project.irr
+    ).toLocaleString("es-ES", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}%`;
+
+    // Estado
+    const statusElement = document.getElementById("project-status");
+    statusElement.classList.remove("status-current", "status-past");
+    if (project.status === "current") {
+      statusElement.classList.add("status-current");
+      statusElement.textContent = "En Curso";
+    } else {
+      statusElement.classList.add("status-past");
+      statusElement.textContent = "Finalizado";
+    }
+
+    // Carrusel
+    this.renderCarousel(project);
+
+    // Mostrar contenido, ocultar loading
+    this.loading.style.display = "none";
+    this.content.style.display = "block";
+
+    // Inicializar carrusel
+    this.initializeCarousel();
+  }
+
+  renderCarousel(project) {
+    const carouselInner = document.getElementById("carousel-items");
+    const carouselIndicators = document.getElementById("carousel-indicators");
+    let carouselItems = "";
+    let indicators = "";
+
+    // Imagen principal
+    const mainImage = project.image
+      ? project.image
+      : "../assets/images/images/caret.webp";
+    carouselItems += `
+      <div class="carousel-item active">
+        <img src="${mainImage}" class="d-block w-100" alt="${project.name}">
+      </div>
+    `;
+    indicators += `<li data-target="#project-carousel" data-slide-to="0" class="active"></li>`;
+
+    // Imágenes adicionales
+    if (project.additional_images && project.additional_images.length > 0) {
+      project.additional_images.forEach((imgObj, index) => {
+        carouselItems += `
+          <div class="carousel-item">
+            <img src="${imgObj.image}" class="d-block w-100" alt="${project.name} - Imagen adicional">
+          </div>
+        `;
+        indicators += `<li data-target="#project-carousel" data-slide-to="${
+          index + 1
+        }"></li>`;
+      });
+    }
+    carouselInner.innerHTML = carouselItems;
+    carouselIndicators.innerHTML = indicators;
+  }
+
+  static formatDate(year, month) {
+    if (!year || !month) return "N/A";
+    const months = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre",
+    ];
+    const monthIndex = parseInt(month) - 1;
+    if (monthIndex >= 0 && monthIndex < 12) {
+      return `${months[monthIndex]} ${year}`;
+    }
+    return `${month} ${year}`;
+  }
+
+  initializeCarousel() {
+    const carouselImages = document.querySelectorAll("#carousel-items img");
+    let imagesLoaded = 0;
+    const checkAllImagesLoaded = () => {
+      imagesLoaded++;
+      if (imagesLoaded === carouselImages.length) {
+        $("#project-carousel").carousel();
+        const prevButton = document.querySelector(".carousel-control-prev");
+        const nextButton = document.querySelector(".carousel-control-next");
+        prevButton?.removeAttribute("href");
+        nextButton?.removeAttribute("href");
+        prevButton?.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          $("#project-carousel").carousel("prev");
+        });
+        nextButton?.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          $("#project-carousel").carousel("next");
+        });
+        if (typeof window.reInitializeComponents === "function") {
+          window.reInitializeComponents();
+        }
+      }
+    };
+    if (carouselImages.length === 0) {
+      $("#project-carousel").carousel();
+    } else {
+      carouselImages.forEach((img) => {
+        if (img.complete) {
+          checkAllImagesLoaded();
+        } else {
+          img.addEventListener("load", checkAllImagesLoaded);
+          img.addEventListener("error", checkAllImagesLoaded);
+        }
+      });
+    }
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => new ProjectDetailManager());
