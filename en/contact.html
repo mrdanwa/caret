@@ -258,6 +258,15 @@
                             required
                           ></textarea>
                         </div>
+                        <!-- Honeypot field to prevent spam -->
+                        <div style="display: none">
+                          <input
+                            type="text"
+                            name="url"
+                            tabindex="-1"
+                            autocomplete="off"
+                          />
+                        </div>
                         <div class="col-12 mt-4">
                           <div class="form-check">
                             <input
@@ -441,6 +450,6 @@
     <script src="../assets/js/config.js"></script>
     <script src="../assets/js/core.js"></script>
     <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/en_contact.js"></script>
+    <script src="../assets/js/contact.js"></script>
   </body>
 </html>

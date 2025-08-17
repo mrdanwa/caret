@@ -902,3 +902,37 @@ footer hr {
     gap: 0.1rem;
   }
 }
+
+/* Team Section */
+.team-section .row {
+  justify-content: center;
+}
+
+/* Contact Form Feedback */
+.feedback-success,
+.feedback-error {
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease;
+}
+
+.feedback-success {
+  color: #004225;
+}
+
+.feedback-error {
+  color: #721c24;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -260,6 +260,15 @@
                             required
                           ></textarea>
                         </div>
+                        <!-- Honeypot field to prevent spam -->
+                        <div style="display: none">
+                          <input
+                            type="text"
+                            name="url"
+                            tabindex="-1"
+                            autocomplete="off"
+                          />
+                        </div>
                         <div class="col-12 mt-4">
                           <div class="form-check">
                             <input

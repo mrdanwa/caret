@@ -1,111 +1,81 @@
-// Simple newsletter form integration
 document.addEventListener("DOMContentLoaded", function () {
-  const newsletterForm = document.querySelector(".newsletter-form");
+  const currentPage = window.location.pathname;
+  const isEnglish = currentPage.includes("/en/");
 
-  if (newsletterForm) {
-    newsletterForm.addEventListener("submit", function (event) {
-      event.preventDefault();
+  // Language-specific messages
+  const messages = {
+    en: {
+      sending: "Sending message...",
+      success: "Thank you! We have received your message.",
+      error: "Oops... something went wrong. Please try again.",
+    },
+    es: {
+      sending: "Enviando mensaje...",
+      success: "¡Gracias! Hemos recibido tu mensaje.",
+      error: "Ups... algo salió mal. Intenta de nuevo.",
+    },
+  };
 
-      const inputGroup = this.querySelector(".input-group");
-      const emailInput = this.querySelector('input[type="email"]');
-      const email = emailInput.value.trim();
+  const currentLanguage = isEnglish ? "en" : "es";
+  const currentMessages = messages[currentLanguage];
 
-      // Save original content to restore later
-      const originalContent = inputGroup.innerHTML;
+  const contactForm = document.getElementById("contact-form");
+  const privacyCheck = document.getElementById("privacy-check");
+  const submitButton = document.getElementById("contact-submit");
 
-      // Send the request to the API
-      fetch("https://caret-ek3gf.ondigitalocean.app/api/newsletter/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({ email: email }),
-      }).then(() => {
-        inputGroup.innerHTML =
-          '<div style="width: 100%; padding: 0.9rem 1.2rem; color: white; font-size: 16px; font-weight: bold; text-align: center;">¡Gracias por suscribirte!</div>';
-
-        setTimeout(() => {
-          inputGroup.innerHTML = originalContent;
-          inputGroup.querySelector('input[type="email"]').value = "";
-        }, 3000);
-      });
+  // Enable/disable submit button based on privacy checkbox
+  if (privacyCheck && submitButton) {
+    privacyCheck.addEventListener("change", function () {
+      submitButton.disabled = !this.checked;
     });
   }
-});
 
-// Contact form integration
-document.addEventListener("DOMContentLoaded", function () {
-  const contactForm = document.getElementById("contact-form");
   if (contactForm) {
     const feedbackDiv = contactForm.querySelector(".zform-feedback");
+
+    // Function to show and clear feedback messages
+    const showFeedback = (message, isError = false) => {
+      const messageClass = isError ? "feedback-error" : "feedback-success";
+      feedbackDiv.innerHTML = `<div class="${messageClass}">${message}</div>`;
+
+      setTimeout(() => {
+        feedbackDiv.innerHTML = "";
+      }, 3000);
+    };
 
     contactForm.addEventListener("submit", function (event) {
       event.preventDefault();
 
-      const name = document.getElementById("contact-name").value.trim();
-      const phone = document.getElementById("contact-phone").value.trim();
-      const email = document.getElementById("contact-email").value.trim();
-      const message = document.getElementById("contact-message").value.trim();
+      // Show loading indicator
+      showFeedback(currentMessages.sending);
 
-      // Save original content to restore later
-      const originalContent = contactForm.innerHTML;
+      // Create form data to send
+      const formData = new FormData(contactForm);
+      formData.append("url", ""); // Honeypot field
 
-      // Send the request to the API
-      fetch("https://caret-ek3gf.ondigitalocean.app/api/contact/", {
+      // Send data to PHP script
+      fetch("../assets/php/contact.php", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          phone: phone,
-          message: message,
-        }),
+        body: formData,
       })
         .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
+          if (response.ok) {
+            return response.text();
           }
-          return response.json();
+          throw new Error("Network response was not ok");
         })
         .then(() => {
           // Show success message
-          feedbackDiv.innerHTML =
-            '<div style="color: #004225; font-family: "Montserrat", sans-serif;">¡Gracias! Hemos recibido tu mensaje.</div>';
+          showFeedback(currentMessages.success);
 
           // Reset form
           contactForm.reset();
-
-          // Restore original content after 3 seconds
-          setTimeout(() => {
-            feedbackDiv.innerHTML = "";
-          }, 3000);
+          submitButton.disabled = true;
         })
-        .catch((error) => {
+        .catch(() => {
           // Show error message
-          feedbackDiv.innerHTML =
-            '<div style="color: #721c24; font-family: "Montserrat", sans-serif;">Ups... algo salió mal. Intenta de nuevo.</div>';
-
-          // Clear error message after 3 seconds
-          setTimeout(() => {
-            feedbackDiv.innerHTML = "";
-          }, 3000);
+          showFeedback(currentMessages.error, true);
         });
     });
-  }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  var privacyCheck = document.getElementById("privacy-check");
-  var submitBtn = document.getElementById("contact-submit");
-  if (privacyCheck && submitBtn) {
-    privacyCheck.addEventListener("change", function () {
-      submitBtn.disabled = !privacyCheck.checked;
-    });
-    // Por si el usuario recarga y el checkbox está marcado
-    submitBtn.disabled = !privacyCheck.checked;
   }
 });
