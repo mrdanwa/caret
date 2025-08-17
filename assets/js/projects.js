@@ -1,11 +1,40 @@
 // Simplified Project Manager
 class ProjectManager {
   constructor() {
-    this.apiUrl = "https://caret-ek3gf.ondigitalocean.app/api/projects/";
     this.projectsPerPage = 12;
     this.currentPage = 1;
     this.totalPages = 1;
     this.currentFilter = "";
+
+    // Language detection
+    const currentPage = window.location.pathname;
+    this.isEnglish = currentPage.includes("/en/");
+
+    // Language-specific messages
+    this.messages = {
+      en: {
+        noProjects: "No projects found.",
+        inProgress: "In Progress",
+        completed: "Completed",
+        moreInfo: "More Information",
+        projectDescription:
+          "{type} project with estimated margin of {margin} € and estimated IRR of {irr}%.",
+        completedProjectDescription:
+          "{type} project with margin of {margin} € and IRR of {irr}%.",
+        projectTypeField: "project_type",
+      },
+      es: {
+        noProjects: "No se encontraron proyectos.",
+        inProgress: "En Curso",
+        completed: "Finalizado",
+        moreInfo: "Más Información",
+        projectDescription:
+          "Proyecto de {type} con margen estimado de {margin} € e IRR estimado de {irr}%.",
+        completedProjectDescription:
+          "Proyecto de {type} con margen de {margin} € e IRR de {irr}%.",
+        projectTypeField: "tipo_proyecto",
+      },
+    };
 
     this.container = document.getElementById("projects-container");
     this.loading = document.getElementById("loading-indicator");
@@ -22,33 +51,24 @@ class ProjectManager {
     });
   }
 
-  async loadProjects(page = 1) {
+  loadProjects(page = 1) {
     this.currentPage = page;
     this.container.innerHTML = "";
     this.loading.style.display = "block";
 
-    try {
-      const params = new URLSearchParams({ page });
-      if (this.currentFilter) params.append("status", this.currentFilter);
+    const data = getProjects(page, this.currentFilter, this.projectsPerPage);
 
-      const response = await fetch(`${this.apiUrl}?${params}`);
-      const data = await response.json();
+    this.totalPages = Math.ceil(data.count / this.projectsPerPage);
+    this.loading.style.display = "none";
 
-      this.totalPages = Math.ceil(data.count / this.projectsPerPage);
-      this.loading.style.display = "none";
-
-      if (data.results.length === 0) {
-        this.container.innerHTML =
-          '<div class="alert alert-info">No se encontraron proyectos.</div>';
-        return;
-      }
-
-      this.renderContent(data.results);
-    } catch (error) {
-      this.loading.style.display = "none";
-      this.container.innerHTML =
-        '<div class="alert alert-danger">Error al cargar los proyectos.</div>';
+    if (data.results.length === 0) {
+      this.container.innerHTML = `<div class="alert alert-info">${
+        this.messages[this.isEnglish ? "en" : "es"].noProjects
+      }</div>`;
+      return;
     }
+
+    this.renderContent(data.results);
   }
 
   renderContent(projects) {
@@ -66,6 +86,15 @@ class ProjectManager {
         maximumFractionDigits: 2,
       });
 
+      // Get the appropriate project type field based on language
+      const projectTypeField =
+        this.messages[this.isEnglish ? "en" : "es"].projectTypeField;
+      const projectType =
+        project[projectTypeField] ||
+        project.project_type ||
+        project.tipo_proyecto ||
+        "";
+
       const col = document.createElement("div");
       col.className = "col-md-6 col-lg-4 py-0 mt-4";
       col.innerHTML = `
@@ -79,7 +108,11 @@ class ProjectManager {
             <span class="badge badge-pill" style="position: absolute; top: 12px; left: 12px; background: ${
               isCurrent ? "#004225" : "#949494"
             }; color: #fff; font-size: 0.85rem; z-index: 2;">
-              ${isCurrent ? "En curso" : "Finalizado"}
+              ${
+                isCurrent
+                  ? this.messages[this.isEnglish ? "en" : "es"].inProgress
+                  : this.messages[this.isEnglish ? "en" : "es"].completed
+              }
             </span>
           </div>
           <div class="px-4 pt-4" style="flex-grow: 1; display: flex; flex-direction: column;">
@@ -92,16 +125,28 @@ class ProjectManager {
               <p class="color-7">${project.location}</p>
             </div>
             <div class="overflow-hidden">
-              <p class="mt-3">Proyecto de ${project.project_type.toLowerCase()} con una margen ${
-        isCurrent ? "estimada" : ""
-      } de ${margin} € y TIR ${isCurrent ? "estimada" : ""} de ${irr}%.</p>
+              <p class="mt-3">${
+                isCurrent
+                  ? this.messages[
+                      this.isEnglish ? "en" : "es"
+                    ].projectDescription
+                      .replace("{type}", projectType)
+                      .replace("{margin}", margin)
+                      .replace("{irr}", irr)
+                  : this.messages[
+                      this.isEnglish ? "en" : "es"
+                    ].completedProjectDescription
+                      .replace("{type}", projectType)
+                      .replace("{margin}", margin)
+                      .replace("{irr}", irr)
+              }</p>
             </div>
-            <div class="overflow-hidden" style="margin-top: auto;">
+                          <div class="overflow-hidden" style="margin-top: auto;">
               <div class="d-inline-block">
                 <a class="d-flex align-items-center" href="project.html?id=${
                   project.id
                 }">
-                  Más Información
+                  ${this.messages[this.isEnglish ? "en" : "es"].moreInfo}
                   <div class="overflow-hidden ml-2">
                     <span class="d-inline-block">&xrarr;</span>
                   </div>

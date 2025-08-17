@@ -2,9 +2,65 @@
 class ProjectDetailManager {
   constructor() {
     this.projectId = this.getProjectIdFromUrl();
+
+    // Language detection
+    const currentPage = window.location.pathname;
+    this.isEnglish = currentPage.includes("/en/");
+
+    // Language-specific messages
+    this.messages = {
+      en: {
+        noProjectSpecified:
+          'No project has been specified. Please return to the <a href="projects.html">project list</a>.',
+        projectNotFound:
+          'Project not found. Please return to the <a href="projects.html">project list</a>.',
+        inProgress: "In Progress",
+        completed: "Completed",
+        estimatedFinancialInfo: "Estimated Financial Information",
+        estimatedAcquisitionSale: "Estimated Acquisition and Sale",
+        months: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+      },
+      es: {
+        noProjectSpecified:
+          'No se ha especificado un proyecto. Por favor, vuelva a la <a href="projects.html">lista de proyectos</a>.',
+        projectNotFound:
+          'Proyecto no encontrado. Por favor, vuelva a la <a href="projects.html">lista de proyectos</a>.',
+        inProgress: "En Curso",
+        completed: "Finalizado",
+        estimatedFinancialInfo: "Información Financiera Estimada",
+        estimatedAcquisitionSale: "Adquisición y Venta Estimada",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+      },
+    };
+
     this.loading = document.getElementById("loading-indicator");
     this.content = document.getElementById("project-content");
-    this.apiBase = "https://caret-ek3gf.ondigitalocean.app/api/projects/";
     this.init();
   }
 
@@ -17,7 +73,7 @@ class ProjectDetailManager {
     if (!this.projectId) {
       this.loading.innerHTML = `
         <div class="alert alert-danger" role="alert">
-          No se ha especificado un proyecto. Por favor, vuelva a la <a href="projects.html">lista de proyectos</a>.
+          ${this.messages[this.isEnglish ? "en" : "es"].noProjectSpecified}
         </div>
       `;
       return;
@@ -25,21 +81,20 @@ class ProjectDetailManager {
     this.loadProject();
   }
 
-  async loadProject() {
-    const apiUrl = `${this.apiBase}${this.projectId}/`;
-    try {
-      const response = await fetch(apiUrl);
-      if (!response.ok) throw new Error("Error al cargar el proyecto");
-      const project = await response.json();
-      this.renderProject(project);
-    } catch (error) {
-      console.error("Error:", error);
+  loadProject() {
+    // Usar la base de datos local en lugar de la API
+    const project = getProjectById(this.projectId);
+
+    if (!project) {
       this.loading.innerHTML = `
         <div class="alert alert-danger" role="alert">
-          Error al cargar los detalles del proyecto. Por favor, intente nuevamente más tarde o vuelva a la <a href="projects.html">lista de proyectos</a>.
+          ${this.messages[this.isEnglish ? "en" : "es"].projectNotFound}
         </div>
       `;
+      return;
     }
+
+    this.renderProject(project);
   }
 
   renderProject(project) {
@@ -52,54 +107,48 @@ class ProjectDetailManager {
     // Detalles
     document.getElementById("detail-project-name").textContent = project.name;
     document.getElementById("project-location").textContent = project.location;
-    document.getElementById("project-type").textContent = project.project_type;
+
+    // Project type - language specific
+    const projectTypeField = this.isEnglish ? "project_type" : "tipo_proyecto";
+    document.getElementById("project-type").textContent =
+      project[projectTypeField] ||
+      project.project_type ||
+      project.tipo_proyecto ||
+      "";
+
     document.getElementById("project-area").textContent = `${parseFloat(
       project.area
     ).toLocaleString("es-ES", { maximumFractionDigits: 0 })} m²`;
 
     // Descripción
-    if (project.description) {
+    const descriptionField = this.isEnglish ? "description" : "descripcion";
+    if (project[descriptionField]) {
       document.getElementById("project-description").textContent =
-        project.description;
+        project[descriptionField];
       document.getElementById("project-description").style.display = "";
     } else {
       document.getElementById("project-description").style.display = "none";
     }
 
     // Fecha de compra
-    const buyDate = ProjectDetailManager.formatDate(
-      project.buy_year,
-      project.buy_month
-    );
+    const buyDate = this.formatDate(project.buy_year, project.buy_month);
     document.getElementById("project-buy-date").textContent = buyDate;
 
-    // Coste total
-    let cost = 0;
-    if (project.buy_price) cost += parseFloat(project.buy_price);
-    if (project.buy_expenses) cost += parseFloat(project.buy_expenses);
-    if (project.sell_expenses) cost += parseFloat(project.sell_expenses);
-    if (project.other_expenses) cost += parseFloat(project.other_expenses);
-    if (project.financing_expenses)
-      cost += parseFloat(project.financing_expenses);
-    const costFormatted = cost.toLocaleString("es-ES", {
+    const cost = parseFloat(project.cost).toLocaleString("es-ES", {
       maximumFractionDigits: 0,
     });
-    document.getElementById("project-cost").textContent = `${costFormatted} €`;
 
-    // Precio de venta
-    const sellPrice = parseFloat(project.sell_price).toLocaleString("es-ES", {
+    const revenue = parseFloat(project.revenue).toLocaleString("es-ES", {
       maximumFractionDigits: 0,
     });
-    document.getElementById(
-      "project-sell-price"
-    ).textContent = `${sellPrice} €`;
+
+    document.getElementById("project-cost").textContent = `${cost} €`;
+
+    document.getElementById("project-sell-price").textContent = `${revenue} €`;
 
     // Fecha de venta
     if (project.sell_year && project.sell_month) {
-      const sellDate = ProjectDetailManager.formatDate(
-        project.sell_year,
-        project.sell_month
-      );
+      const sellDate = this.formatDate(project.sell_year, project.sell_month);
       document.getElementById("project-sell-date").textContent = sellDate;
     } else if (!project.sell_month) {
       document.getElementById("project-sell-date").textContent =
@@ -124,10 +173,24 @@ class ProjectDetailManager {
     statusElement.classList.remove("status-current", "status-past");
     if (project.status === "current") {
       statusElement.classList.add("status-current");
-      statusElement.textContent = "En Curso";
+      statusElement.textContent =
+        this.messages[this.isEnglish ? "en" : "es"].inProgress;
+
+      // Cambiar título de la sección financiera para proyectos en curso
+      const financialTitle = document.getElementById("financial-section-title");
+      if (financialTitle) {
+        financialTitle.textContent =
+          this.messages[this.isEnglish ? "en" : "es"].estimatedFinancialInfo;
+      }
+      const acquisitionSale = document.getElementById("acquisition-sale");
+      if (acquisitionSale) {
+        acquisitionSale.textContent =
+          this.messages[this.isEnglish ? "en" : "es"].estimatedAcquisitionSale;
+      }
     } else {
       statusElement.classList.add("status-past");
-      statusElement.textContent = "Finalizado";
+      statusElement.textContent =
+        this.messages[this.isEnglish ? "en" : "es"].completed;
     }
 
     // Carrusel
@@ -175,22 +238,9 @@ class ProjectDetailManager {
     carouselIndicators.innerHTML = indicators;
   }
 
-  static formatDate(year, month) {
+  formatDate(year, month) {
     if (!year || !month) return "N/A";
-    const months = [
-      "Enero",
-      "Febrero",
-      "Marzo",
-      "Abril",
-      "Mayo",
-      "Junio",
-      "Julio",
-      "Agosto",
-      "Septiembre",
-      "Octubre",
-      "Noviembre",
-      "Diciembre",
-    ];
+    const months = this.messages[this.isEnglish ? "en" : "es"].months;
     const monthIndex = parseInt(month) - 1;
     if (monthIndex >= 0 && monthIndex < 12) {
       return `${months[monthIndex]} ${year}`;
