@@ -1,4 +1,12 @@
 // Gestor de Detalle de Proyecto
+
+// Función para obtener un proyecto específico por ID
+function getProjectById(id) {
+  return PROJECTS_DATABASE.results.find(
+    (project) => project.id === parseInt(id)
+  );
+}
+
 class ProjectDetailManager {
   constructor() {
     this.projectId = this.getProjectIdFromUrl();
@@ -59,7 +67,6 @@ class ProjectDetailManager {
       },
     };
 
-    this.loading = document.getElementById("loading-indicator");
     this.content = document.getElementById("project-content");
     this.init();
   }
@@ -86,7 +93,7 @@ class ProjectDetailManager {
     const project = getProjectById(this.projectId);
 
     if (!project) {
-      this.loading.innerHTML = `
+      this.content.innerHTML = `
         <div class="alert alert-danger" role="alert">
           ${this.messages[this.isEnglish ? "en" : "es"].projectNotFound}
         </div>
@@ -196,10 +203,6 @@ class ProjectDetailManager {
     // Carrusel
     this.renderCarousel(project);
 
-    // Mostrar contenido, ocultar loading
-    this.loading.style.display = "none";
-    this.content.style.display = "block";
-
     // Inicializar carrusel
     this.initializeCarousel();
   }
@@ -289,4 +292,7 @@ class ProjectDetailManager {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => new ProjectDetailManager());
+document.addEventListener("DOMContentLoaded", async () => {
+  const projectDetailManager = new ProjectDetailManager();
+  await projectDetailManager.init();
+});

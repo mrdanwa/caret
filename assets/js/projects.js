@@ -1,4 +1,25 @@
-// Simplified Project Manager
+// Función para obtener proyectos con paginación y filtros
+function getProjects(page = 1, status = "", projectsPerPage = 12) {
+  let filteredProjects = PROJECTS_DATABASE.results;
+
+  if (status) {
+    filteredProjects = filteredProjects.filter(
+      (project) => project.status === status
+    );
+  }
+
+  const startIndex = (page - 1) * projectsPerPage;
+  const endIndex = startIndex + projectsPerPage;
+  const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
+
+  return {
+    count: filteredProjects.length,
+    results: paginatedProjects,
+  };
+}
+
+// Project Manager
+
 class ProjectManager {
   constructor() {
     this.projectsPerPage = 12;
@@ -37,7 +58,6 @@ class ProjectManager {
     };
 
     this.container = document.getElementById("projects-container");
-    this.loading = document.getElementById("loading-indicator");
     this.filter = document.getElementById("projects-filter");
 
     this.init();
@@ -54,12 +74,10 @@ class ProjectManager {
   loadProjects(page = 1) {
     this.currentPage = page;
     this.container.innerHTML = "";
-    this.loading.style.display = "block";
 
     const data = getProjects(page, this.currentFilter, this.projectsPerPage);
 
     this.totalPages = Math.ceil(data.count / this.projectsPerPage);
-    this.loading.style.display = "none";
 
     if (data.results.length === 0) {
       this.container.innerHTML = `<div class="alert alert-info">${
