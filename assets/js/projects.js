@@ -39,9 +39,9 @@ class ProjectManager {
         completed: "Completed",
         moreInfo: "More Information",
         projectDescription:
-          "{type} project with estimated margin of {margin} € and estimated IRR of {irr}%.",
+          "{type} project with an estimated margin of {margin} € and an estimated IRR of {irr}%.",
         completedProjectDescription:
-          "{type} project with margin of {margin} € and IRR of {irr}%.",
+          "{type} project with a margin of {margin} € and an IRR of {irr}%.",
         projectTypeField: "project_type",
       },
       es: {
@@ -50,9 +50,9 @@ class ProjectManager {
         completed: "Finalizado",
         moreInfo: "Más Información",
         projectDescription:
-          "Proyecto de {type} con margen estimado de {margin} € e TIR estimado de {irr}%.",
+          "Proyecto de {type} con un margen estimado de {margin} € y una TIR estimada de {irr}%.",
         completedProjectDescription:
-          "Proyecto de {type} con margen de {margin} € e TIR de {irr}%.",
+          "Proyecto de {type} con un margen de {margin} € y una TIR de {irr}%.",
         projectTypeField: "tipo_proyecto",
       },
     };
