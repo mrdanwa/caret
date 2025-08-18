@@ -29,9 +29,9 @@ class ProjectManager {
         completed: "Finalizado",
         moreInfo: "Más Información",
         projectDescription:
-          "Proyecto de {type} con margen estimado de {margin} € e IRR estimado de {irr}%.",
+          "Proyecto de {type} con margen estimado de {margin} € e TIR estimado de {irr}%.",
         completedProjectDescription:
-          "Proyecto de {type} con margen de {margin} € e IRR de {irr}%.",
+          "Proyecto de {type} con margen de {margin} € e TIR de {irr}%.",
         projectTypeField: "tipo_proyecto",
       },
     };
