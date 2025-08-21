@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.append("url", ""); // Honeypot field
 
       // Send data to PHP script
-      fetch("../assets/php/contact.php", {
+      fetch("/assets/php/contact.php", {
         method: "POST",
         body: formData,
       })
