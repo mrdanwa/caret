@@ -1,7 +1,7 @@
 <?php
 // Improved contact form handler with better security and error handling
 
-$recipient = "info@inmonetiza.com";
+$recipient = "info@caretcap.es";
 $subject = "Mensaje Web";
 
 // Check if email is set and honeypot field is empty (anti-spam)
@@ -25,7 +25,7 @@ if (isset($_POST['email']) && (!isset($_POST['url']) || $_POST['url'] == '')) {
   $mess .= "Mensaje: ".$message."\n";
   
   // Set headers with a domain-matching From address (critical for delivery)
-  $headers = "From: Contact Form <info@inmonetiza.com>\r\n";
+  $headers = "From: Contact Form <info@caretcap.es>\r\n";
   $headers .= "Reply-To: ".$email."\r\n";
   $headers .= "X-Mailer: PHP/".phpversion()."\r\n";
   $headers .= "Content-Type: text/plain; charset=UTF-8";
