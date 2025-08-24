@@ -60,22 +60,17 @@ document.addEventListener("DOMContentLoaded", function () {
       })
         .then((response) => {
           if (response.ok) {
-            return response.json();
+            return response.text();
           }
           throw new Error("Network response was not ok");
         })
-        .then((data) => {
-          if (data.status === "success") {
-            // Show success message
-            showFeedback(currentMessages.success);
+        .then(() => {
+          // Show success message
+          showFeedback(currentMessages.success);
 
-            // Reset form
-            contactForm.reset();
-            submitButton.disabled = true;
-          } else {
-            // Show error message from server
-            showFeedback(currentMessages.error, true);
-          }
+          // Reset form
+          contactForm.reset();
+          submitButton.disabled = true;
         })
         .catch(() => {
           // Show error message
