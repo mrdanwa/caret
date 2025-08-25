@@ -49,33 +49,43 @@ document.addEventListener("DOMContentLoaded", function () {
       // Show loading indicator
       showFeedback(currentMessages.sending);
 
-      // Create form data to send
-      const formData = new FormData(contactForm);
-      formData.append("url", ""); // Honeypot field
+      // Get reCAPTCHA token
+      grecaptcha.enterprise.ready(function () {
+        grecaptcha.enterprise
+          .execute("6Ld0uLErAAAAAL4_WwbY6yoPAHxMREIxCNFvrYRY", {
+            action: "submit",
+          })
+          .then(function (token) {
+            // Create form data to send
+            const formData = new FormData(contactForm);
+            formData.append("url", ""); // Honeypot field
+            formData.append("recaptcha_token", token); // Add reCAPTCHA token
 
-      // Send data to PHP script
-      fetch("/assets/php/contact.php", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.text();
-          }
-          throw new Error("Network response was not ok");
-        })
-        .then(() => {
-          // Show success message
-          showFeedback(currentMessages.success);
+            // Send data to PHP script
+            fetch("/assets/php/contact.php", {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => {
+                if (response.ok) {
+                  return response.text();
+                }
+                throw new Error("Network response was not ok");
+              })
+              .then(() => {
+                // Show success message
+                showFeedback(currentMessages.success);
 
-          // Reset form
-          contactForm.reset();
-          submitButton.disabled = true;
-        })
-        .catch(() => {
-          // Show error message
-          showFeedback(currentMessages.error, true);
-        });
+                // Reset form
+                contactForm.reset();
+                submitButton.disabled = true;
+              })
+              .catch(() => {
+                // Show error message
+                showFeedback(currentMessages.error, true);
+              });
+          });
+      });
     });
   }
 });
