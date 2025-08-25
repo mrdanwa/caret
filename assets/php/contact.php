@@ -2,55 +2,9 @@
 
 $recipient = "dwang@caretcap.com";
 $subject = "Mensaje del formulario web";
-$api_key = "6Ld0uLErAAAAAD29OwkywJ8kVn1Ce5E8tedasdf_"; // Replace with your actual API key
-
-// Function to verify reCAPTCHA token
-function verifyRecaptcha($token, $api_key) {
-  $url = "https://recaptchaenterprise.googleapis.com/v1/projects/caret-capital/assessments?key=" . $api_key;
-  
-  $data = [
-    "event" => [
-      "token" => $token,
-      "expectedAction" => "submit",
-      "siteKey" => "6Ld0uLErAAAAAL4_WwbY6yoPAHxMREIxCNFvrYRY"
-    ]
-  ];
-  
-  $options = [
-    'http' => [
-      'header' => "Content-type: application/json\r\n",
-      'method' => 'POST',
-      'content' => json_encode($data)
-    ]
-  ];
-  
-  $context = stream_context_create($options);
-  $result = file_get_contents($url, false, $context);
-  
-  if ($result === FALSE) {
-    return false;
-  }
-  
-  $response = json_decode($result, true);
-  
-  // Check if the assessment was successful and the score is high enough
-  if (isset($response['tokenProperties']['valid']) && $response['tokenProperties']['valid'] === true) {
-    if (isset($response['riskAnalysis']['score']) && $response['riskAnalysis']['score'] > 0.5) {
-      return true;
-    }
-  }
-  
-  return false;
-}
 
 // Check if email is set and honeypot field is empty (anti-spam)
 if (isset($_POST['email']) && (!isset($_POST['url']) || $_POST['url'] == '')) {
-  // Verify reCAPTCHA token
-  if (!isset($_POST['recaptcha_token']) || !verifyRecaptcha($_POST['recaptcha_token'], $api_key)) {
-    header('HTTP/1.1 400 Bad Request');
-    die('reCAPTCHA verification failed');
-  }
-  
   // Sanitize inputs
   $name = htmlspecialchars(trim($_POST['name'] ?? ''), ENT_QUOTES, 'UTF-8');
   $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
