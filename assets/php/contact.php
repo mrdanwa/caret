@@ -3,8 +3,22 @@
 $recipient = "dwang@caretcap.com";
 $subject = "Mensaje del formulario web";
 
-// Check if email is set and honeypot field is empty (anti-spam)
-if (isset($_POST['email']) && (!isset($_POST['url']) || $_POST['url'] == '')) {
+// Check if email is set, honeypot field is empty, and timestamp is valid (anti-spam)
+if (isset($_POST['email']) && (!isset($_POST['url']) || $_POST['url'] == '') && validateTimestamp()) {
+
+// Function to validate the timestamp (ensure form wasn't submitted too quickly)
+function validateTimestamp() {
+  if (!isset($_POST['timestamp']) || empty($_POST['timestamp'])) {
+    return false;
+  }
+  
+  $formTime = (int)$_POST['timestamp'];
+  $currentTime = time() * 1000; // Convert to milliseconds to match JS Date.now()
+  $elapsedTime = $currentTime - $formTime;
+  
+  // Form must be open for at least 3 seconds before submission (to prevent bots)
+  return $elapsedTime >= 3000;
+}
   // Sanitize inputs
   $name = htmlspecialchars(trim($_POST['name'] ?? ''), ENT_QUOTES, 'UTF-8');
   $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);

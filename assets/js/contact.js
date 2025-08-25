@@ -33,6 +33,12 @@ document.addEventListener("DOMContentLoaded", function () {
   if (contactForm) {
     const feedbackDiv = contactForm.querySelector(".zform-feedback");
 
+    // Set timestamp when form loads
+    const timestampField = document.getElementById("form-timestamp");
+    if (timestampField) {
+      timestampField.value = Date.now();
+    }
+
     // Function to show and clear feedback messages
     const showFeedback = (message, isError = false) => {
       const messageClass = isError ? "feedback-error" : "feedback-success";
