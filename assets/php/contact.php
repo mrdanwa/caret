@@ -2,9 +2,62 @@
 
 $recipient = "dwang@caretcap.com";
 $subject = "Mensaje del formulario web";
+$recaptcha_api_key = "6Ld0uLErAAAAAD29OwkywJ8kVn1Ce5E8tedasdf_"; // Secret key for reCAPTCHA
 
-// Check if email is set and honeypot field is empty (anti-spam)
-if (isset($_POST['email']) && (!isset($_POST['url']) || $_POST['url'] == '')) {
+// Function to verify reCAPTCHA token
+function verifyRecaptchaToken($token, $expected_action) {
+  global $recaptcha_api_key;
+  
+  // Create the request body
+  $request_data = [
+    'event' => [
+      'token' => $token,
+      'expectedAction' => $expected_action,
+      'siteKey' => '6Ld0uLErAAAAAL4_WwbY6yoPAHxMREIxCNFvrYRY'
+    ]
+  ];
+  
+  // Initialize cURL
+  $ch = curl_init();
+  
+  // Set cURL options
+  curl_setopt($ch, CURLOPT_URL, "https://recaptchaenterprise.googleapis.com/v1/projects/caret-capital/assessments?key=" . $recaptcha_api_key);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_data));
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/json'
+  ]);
+  
+  // Execute cURL request
+  $response = curl_exec($ch);
+  $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  curl_close($ch);
+  
+  // Parse response
+  $result = json_decode($response, true);
+  
+  // Check if the assessment was successful and the score is high enough
+  if ($http_code == 200 && isset($result['tokenProperties']['valid']) && $result['tokenProperties']['valid'] == true) {
+    if (isset($result['riskAnalysis']['score']) && $result['riskAnalysis']['score'] >= 0.5) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+// Check if email is set, honeypot field is empty (anti-spam), and reCAPTCHA token is valid
+if (isset($_POST['email']) && (!isset($_POST['url']) || $_POST['url'] == '') && isset($_POST['recaptcha_token'])) {
+  // Verify reCAPTCHA token
+  $recaptcha_token = $_POST['recaptcha_token'];
+  $recaptcha_valid = verifyRecaptchaToken($recaptcha_token, 'CONTACT');
+  
+  if (!$recaptcha_valid) {
+    http_response_code(403);
+    die('reCAPTCHA verification failed');
+  }
+  
   // Sanitize inputs
   $name = htmlspecialchars(trim($_POST['name'] ?? ''), ENT_QUOTES, 'UTF-8');
   $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
