@@ -8,13 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
       sending: "Sending message...",
       success: "Thank you! We have received your message.",
       error: "Oops... something went wrong. Please try again.",
-      recaptchaError: "Please verify that you are not a robot.",
     },
     es: {
       sending: "Enviando mensaje...",
       success: "¡Gracias! Hemos recibido tu mensaje.",
       error: "Ups... algo salió mal. Intenta de nuevo.",
-      recaptchaError: "Por favor, verifica que no eres un robot.",
     },
   };
 
@@ -48,51 +46,36 @@ document.addEventListener("DOMContentLoaded", function () {
     contactForm.addEventListener("submit", function (event) {
       event.preventDefault();
 
-      // Get reCAPTCHA token
-      grecaptcha.enterprise.ready(function () {
-        grecaptcha.enterprise
-          .execute("6Ld0uLErAAAAAL4_WwbY6yoPAHxMREIxCNFvrYRY", {
-            action: "CONTACT",
-          })
-          .then(function (token) {
-            // Show loading indicator
-            showFeedback(currentMessages.sending);
+      // Show loading indicator
+      showFeedback(currentMessages.sending);
 
-            // Create form data to send
-            const formData = new FormData(contactForm);
-            formData.append("url", ""); // Honeypot field
-            formData.append("recaptcha_token", token); // Add reCAPTCHA token
+      // Create form data to send
+      const formData = new FormData(contactForm);
+      formData.append("url", ""); // Honeypot field
 
-            // Send data to PHP script
-            fetch("/assets/php/contact.php", {
-              method: "POST",
-              body: formData,
-            })
-              .then((response) => {
-                if (response.ok) {
-                  return response.text();
-                }
-                throw new Error("Network response was not ok");
-              })
-              .then(() => {
-                // Show success message
-                showFeedback(currentMessages.success);
+      // Send data to PHP script
+      fetch("/assets/php/contact.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.text();
+          }
+          throw new Error("Network response was not ok");
+        })
+        .then(() => {
+          // Show success message
+          showFeedback(currentMessages.success);
 
-                // Reset form
-                contactForm.reset();
-                submitButton.disabled = true;
-              })
-              .catch((error) => {
-                // Show error message
-                showFeedback(currentMessages.error, true);
-                console.error("Error:", error);
-              });
-          })
-          .catch(function () {
-            // Show reCAPTCHA error message
-            showFeedback(currentMessages.recaptchaError, true);
-          });
-      });
+          // Reset form
+          contactForm.reset();
+          submitButton.disabled = true;
+        })
+        .catch(() => {
+          // Show error message
+          showFeedback(currentMessages.error, true);
+        });
     });
   }
 });
