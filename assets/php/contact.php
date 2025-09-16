@@ -1,6 +1,6 @@
 <?php
 
-$recipient = "dwang@caretcap.com";
+$recipient = "dwang@caretcap.com,info@caretcap.com";
 $subject = "Mensaje del formulario web";
 
 // Function to validate the timestamp (ensure form wasn't submitted too quickly)
