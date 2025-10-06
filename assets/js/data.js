@@ -1347,7 +1347,7 @@ const PROJECTS_DATABASE = {
     },
     {
       id: 3,
-      name: "Gómez-Narro",
+      name: "Gómeznarro",
       location: "Canillas, Madrid",
       tipo_proyecto: "Compra - Reforma - Venta",
       project_type: "Purchase - Renovation - Sale",
@@ -1365,22 +1365,22 @@ const PROJECTS_DATABASE = {
       margin: 40000,
       irr: 90.5,
       status: "past",
-      image: "../assets/projects/gomez-narro/1.webp",
+      image: "../assets/projects/gomeznarro/1.webp",
       additional_images: [
         {
-          image: "../assets/projects/gomez-narro/2.webp",
+          image: "../assets/projects/gomeznarro/2.webp",
         },
         {
-          image: "../assets/projects/gomez-narro/3.webp",
+          image: "../assets/projects/gomeznarro/3.webp",
         },
         {
-          image: "../assets/projects/gomez-narro/4.webp",
+          image: "../assets/projects/gomeznarro/4.webp",
         },
         {
-          image: "../assets/projects/gomez-narro/5.webp",
+          image: "../assets/projects/gomeznarro/5.webp",
         },
         {
-          image: "../assets/projects/gomez-narro/6.webp",
+          image: "../assets/projects/gomeznarro/6.webp",
         },
       ],
     },
