@@ -26,6 +26,7 @@ class ProjectDetailManager {
         completed: "Completed",
         estimatedFinancialInfo: "Estimated Financial Information",
         estimatedAcquisitionSale: "Estimated Acquisition and Sale",
+        toDetermine: "Pending",
         months: [
           "January",
           "February",
@@ -50,6 +51,7 @@ class ProjectDetailManager {
         completed: "Finalizado",
         estimatedFinancialInfo: "Información Financiera Estimada",
         estimatedAcquisitionSale: "Adquisición y Venta Estimada",
+        toDetermine: "Pendiente",
         months: [
           "Enero",
           "Febrero",
@@ -139,23 +141,39 @@ class ProjectDetailManager {
     }
 
     // Fecha de compra
-    const buyDate = this.formatDate(project.buy_year, project.buy_month);
-    document.getElementById("project-buy-date").textContent = buyDate;
+    if (project.buy_year && project.buy_month) {
+      const buyDate = this.formatDate(project.buy_year, project.buy_month);
+      document.getElementById("project-buy-date").textContent = buyDate;
+    } else if (project.buy_year && !project.buy_month) {
+      document.getElementById("project-buy-date").textContent =
+        project.buy_year;
+    } else {
+      document.getElementById("project-buy-date").textContent = "";
+    }
 
-    const cost = parseFloat(project.cost).toLocaleString("es-ES", {
-      maximumFractionDigits: 0,
-    });
+    const cost =
+      project.cost === "N/A" || !project.cost
+        ? this.messages[this.isEnglish ? "en" : "es"].toDetermine
+        : parseFloat(project.cost).toLocaleString("es-ES", {
+            maximumFractionDigits: 0,
+          }) + " €";
 
-    const revenue = parseFloat(project.revenue).toLocaleString("es-ES", {
-      maximumFractionDigits: 0,
-    });
+    const revenue =
+      project.revenue === "N/A" || !project.revenue
+        ? this.messages[this.isEnglish ? "en" : "es"].toDetermine
+        : parseFloat(project.revenue).toLocaleString("es-ES", {
+            maximumFractionDigits: 0,
+          }) + " €";
 
-    document.getElementById("project-cost").textContent = `${cost} €`;
+    document.getElementById("project-cost").textContent = cost;
 
-    document.getElementById("project-sell-price").textContent = `${revenue} €`;
+    document.getElementById("project-sell-price").textContent = revenue;
 
     // Fecha de venta
-    if (project.sell_year && project.sell_month) {
+    if (project.sell_year === "N/A" || !project.sell_year) {
+      document.getElementById("project-sell-date").textContent =
+        this.messages[this.isEnglish ? "en" : "es"].toDetermine;
+    } else if (project.sell_year && project.sell_month) {
       const sellDate = this.formatDate(project.sell_year, project.sell_month);
       document.getElementById("project-sell-date").textContent = sellDate;
     } else if (!project.sell_month) {
@@ -166,15 +184,23 @@ class ProjectDetailManager {
     }
 
     // Margen e IRR
-    document.getElementById("project-margin").textContent = `${parseFloat(
-      project.margin
-    ).toLocaleString("es-ES", { maximumFractionDigits: 0 })} €`;
-    document.getElementById("project-irr").textContent = `${parseFloat(
-      project.irr
-    ).toLocaleString("es-ES", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}%`;
+    const margin =
+      project.margin === "N/A" || !project.margin
+        ? this.messages[this.isEnglish ? "en" : "es"].toDetermine
+        : parseFloat(project.margin).toLocaleString("es-ES", {
+            maximumFractionDigits: 0,
+          }) + " €";
+
+    const irr =
+      project.irr === "N/A" || !project.irr
+        ? this.messages[this.isEnglish ? "en" : "es"].toDetermine
+        : parseFloat(project.irr).toLocaleString("es-ES", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }) + "%";
+
+    document.getElementById("project-margin").textContent = margin;
+    document.getElementById("project-irr").textContent = irr;
 
     // Estado
     const statusElement = document.getElementById("project-status");

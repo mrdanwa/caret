@@ -39,10 +39,11 @@ class ProjectManager {
         completed: "Completed",
         moreInfo: "More Information",
         projectDescription:
-          "{type} project with an estimated margin of {margin} € and an estimated IRR of {irr}%.",
+          "{type} project with an estimated investment of {cost}€.",
         completedProjectDescription:
-          "{type} project with a margin of {margin} € and an IRR of {irr}%.",
+          "{type} project with a margin of {margin}€ and an IRR of {irr}%.",
         projectTypeField: "project_type",
+        toDetermine: "Pending",
       },
       es: {
         noProjects: "No se encontraron proyectos.",
@@ -50,10 +51,11 @@ class ProjectManager {
         completed: "Finalizado",
         moreInfo: "Más Información",
         projectDescription:
-          "Proyecto de {type} con un margen estimado de {margin} € y una TIR estimada de {irr}%.",
+          "Proyecto de {type} con una inversión estimada de {cost}€.",
         completedProjectDescription:
-          "Proyecto de {type} con un margen de {margin} € y una TIR de {irr}%.",
+          "Proyecto de {type} con un margen de {margin}€ y una TIR de {irr}%.",
         projectTypeField: "tipo_proyecto",
+        toDetermine: "Pendiente",
       },
     };
 
@@ -149,8 +151,15 @@ class ProjectManager {
                       this.isEnglish ? "en" : "es"
                     ].projectDescription
                       .replace("{type}", projectType)
-                      .replace("{margin}", margin)
-                      .replace("{irr}", irr)
+                      .replace(
+                        "{cost}",
+                        project.cost === "N/A" || !project.cost
+                          ? this.messages[this.isEnglish ? "en" : "es"]
+                              .toDetermine
+                          : parseFloat(project.cost).toLocaleString("es-ES", {
+                              maximumFractionDigits: 0,
+                            })
+                      )
                   : this.messages[
                       this.isEnglish ? "en" : "es"
                     ].completedProjectDescription
