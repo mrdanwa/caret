@@ -5,13 +5,13 @@ const PROJECTS_DATABASE = {
       id: 52,
       name: "Sóller",
       location: "Sóller, Baleares",
-      tipo_proyecto: "Préstamo",
-      project_type: "Loan",
+      tipo_proyecto: "Compra - Reforma - Venta",
+      project_type: "Purchase - Renovation - Sale",
       area: 200,
       description:
-        "Alternative financing project for the repositioning of a property in Sóller, Mallorca. The operation consists of a comprehensive renovation of the residence, with the aim of its subsequent sale, which has already been prearranged. As collateral for the transaction, the property is registered under the ownership of Caret Capital.",
+        "Alternative financing project to one of our collaborators from the Balearic Islands. As collateral for the transaction, the property is registered under the ownership of Caret Capital. The operation consists of the repositioning of an asset in Sóller, Mallorca, through the comprehensive renovation of the residence with the aim of its subsequent sale, already prearranged.",
       descripcion:
-        "Proyecto de financiación alternativa destinado al reposicionamiento de un activo en Sóller, Mallorca. La operación consiste en la reforma integral de la vivienda con el objetivo de su posterior venta, ya pactada previamente. Como garantía de la operación, el inmueble figura inscrito a nombre de Caret Capital.",
+        "Proyecto de financiación alternativa a uno de nuestros colaboradores de las Islas Baleares. Como garantía de la operación, el inmueble figura inscrito a nombre de Caret Capital. La operación consiste en el reposicionamiento de un activo en Sóller, Mallorca, mediante la reforma integral de la vivienda con el objetivo de su posterior venta, ya pactada previamente.",
       buy_year: "2025",
       buy_month: "8",
       sell_year: "N/A",
@@ -127,9 +127,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 47,
       description:
-        "Call option in San Javier Murcia with a 47 m² asset in progress and exercise or assignment strategy.",
+        "Call option in San Javier Murcia on a 47 m² asset. We have exercised the purchase right by giving the counterparty a repurchase right.",
       descripcion:
-        "Opción de compra en San Javier Murcia con un activo de 47 m² en curso y estrategia de ejercicio o cesión.",
+        "Opción de compra en San Javier Murcia con un activo de 47 m². Hemos ejercido el derecho de compra dándole a la contraparte un derecho de recompra.",
       buy_year: "2024",
       buy_month: "10",
       sell_year: "N/A",
@@ -139,7 +139,7 @@ const PROJECTS_DATABASE = {
       margin: "N/A",
       irr: "N/A",
       status: "current",
-      image: "",
+      image: "../assets/projects/sanjavier/1.webp",
       additional_images: [],
     },
     {
@@ -149,8 +149,10 @@ const PROJECTS_DATABASE = {
       tipo_proyecto: "Opción de compra",
       project_type: "Call option",
       area: 164,
-      description: "",
-      descripcion: "",
+      description:
+        "Call option for a 164 m² villa in the province of Cádiz. We accepted not to exercise the purchase right in exchange for a compensation.",
+      descripcion:
+        "Opción de compra de una villa de 164 m² en la provincia de Cádiz. Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2024",
       buy_month: "7",
       sell_year: "N/A",
@@ -203,9 +205,9 @@ const PROJECTS_DATABASE = {
       project_type: "Conversion",
       area: 164,
       description:
-        "Project in Sarrià (Barcelona) focused on the conversion of a 164 m² office into a dwelling, optimizing the property’s value through change of use.",
+        "Project in Sarrià (Barcelona) focused on the conversion of a 164 m² office into a high-end dwelling, optimizing the property’s value through change of use.",
       descripcion:
-        "Proyecto en Sarrià (Barcelona) enfocado en la transformación de una oficina de 164 m² en vivienda, optimizando el valor del inmueble a través del cambio de uso.",
+        "Proyecto en Sarrià (Barcelona) enfocado en la transformación de una oficina de 164 m² en vivienda de alto standing, optimizando el valor del inmueble a través del cambio de uso.",
       buy_year: "2024",
       buy_month: "4",
       sell_year: "N/A",
@@ -232,9 +234,9 @@ const PROJECTS_DATABASE = {
       project_type: "Conversion",
       area: 90,
       description:
-        "Purchase-renovation-sale with change of use to residential of the asset located at Cassoles. A 105 m² dwelling, renovated to high standards (3 bedrooms, 2 bathrooms, aerothermal climate control, and premium finishes).",
+        "Purchase-renovation-sale with change of use to high-end residential of the asset located at Cassoles. A 105 m² dwelling, renovated to high standards (3 bedrooms, 2 bathrooms, aerothermal climate control, and premium finishes).",
       descripcion:
-        "Compra-reforma-venta con cambio de uso a vivienda del activo situado Cassoles. Vivienda de 105 m², reformada con altos estándares (3 habitaciones, 2 baños, climatización por aerotermia y acabados premium).",
+        "Compra-reforma-venta con cambio de uso a vivienda de alto standing del activo situado Cassoles. Vivienda de 105 m², reformada con altos estándares (3 habitaciones, 2 baños, climatización por aerotermia y acabados premium).",
       buy_year: "2024",
       buy_month: "4",
       sell_year: "N/A",
@@ -272,15 +274,15 @@ const PROJECTS_DATABASE = {
       margin: "N/A",
       irr: "N/A",
       status: "current",
-      image: "",
+      image: "../assets/projects/marbella-valleazul/1.webp",
       additional_images: [],
     },
     {
       id: 41,
       name: "José Grollo",
       location: "Benicalap, Valencia",
-      tipo_proyecto: "Obra nueva",
-      project_type: "New development",
+      tipo_proyecto: "Obra nueva / Rehabilitación",
+      project_type: "New development / Refurbishment",
       area: 2500,
       description:
         "New-build project in Benicalap (Valencia), consisting of the construction of a residential building with 23 dwellings on a 2,500 m² plot. The development includes the design, execution, and commercialization of the units.",
@@ -335,8 +337,8 @@ const PROJECTS_DATABASE = {
       id: 39,
       name: "Vázquez de Mella",
       location: "Pueblo Nuevo, Madrid",
-      tipo_proyecto: "Compra - Reforma - Venta",
-      project_type: "Purchase - Renovation - Sale",
+      tipo_proyecto: "Obra nueva / Rehabilitación",
+      project_type: "New development / Refurbishment",
       area: 1300,
       description:
         "Project in Pueblo Nuevo (Madrid) consisting of the full refurbishment and change of use of a building, resulting in 14 dwellings and generating a significant increase in the asset’s value.",
@@ -377,9 +379,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 197,
       description:
-        "Call option in Santa Lucía de Tirajana Las Palmas on a package of two apartments and one commercial space totaling 197 m² with structuring and sale after consolidation.",
+        "Call option in Santa Lucía de Tirajana Las Palmas on a package of two apartments and one commercial space totaling 197 m². We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra en Santa Lucía de Tirajana Las Palmas sobre un paquete de dos pisos y un local de 197 m² con estructuración y venta tras consolidación.",
+        "Opción de compra en Santa Lucía de Tirajana Las Palmas sobre un paquete de dos pisos y un local de 197 m². Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2024",
       buy_month: "9",
       sell_year: "2025",
@@ -396,11 +398,11 @@ const PROJECTS_DATABASE = {
       id: 37,
       name: "Vall d’en Bas",
       location: "Vall d'en Bas, Gerona",
-      tipo_proyecto: "Traspaso de derecho de compra",
-      project_type: "Assignment of purchase rights",
+      tipo_proyecto: "Compra - Reforma - Venta",
+      project_type: "Purchase - Renovation - Sale",
       area: 123,
       description:
-        "Assignment of purchase rights in Vall d'en Bas Girona with earnest money signature, agreement with occupant and transfer of right to third party in exchange for premium.",
+        "Sale of purchase rights in Vall d'en Bas Girona with earnest money signature, agreement with occupant and transfer of right to third party in exchange for premium.",
       descripcion:
         "Traspaso de derecho de compra en Vall d’en Bas Girona con firma de arras, acuerdo con el ocupante y cesión del derecho a un tercero a cambio de una prima.",
       buy_year: "2024",
@@ -412,8 +414,8 @@ const PROJECTS_DATABASE = {
       margin: 29000,
       irr: 202.7,
       status: "past",
-      image: "",
-      additional_images: [],
+      image: "../assets/projects/valldenbas/1.webp",
+      additional_images: [{ image: "../assets/projects/valldenbas/2.webp" }],
     },
     {
       id: 36,
@@ -423,9 +425,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 498,
       description:
-        "Call option in Manresa Barcelona with position on a 498 m² building and divestment after improvement of exit conditions.",
+        "Call option in Manresa Barcelona on a building of 4 houses with a total surface area of 498 m². We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra en Manresa Barcelona con posición sobre un edificio de 498 m² y desinversión tras la mejora de las condiciones de salida.",
+        "Opción de compra en Manresa Barcelona sobre un edificio de 4 viviendas con una superficie total de 498 m². Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2024",
       buy_month: "4",
       sell_year: "2024",
@@ -446,9 +448,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 244,
       description:
-        "Call option in San Roque Cádiz granting control over a 244 m² asset and sale after appreciation.",
+        "Call option in San Roque Cádiz on a 244 m² asset that we accepted not to exercise in exchange for a compensation.",
       descripcion:
-        "Opción de compra en San Roque Cádiz que otorga control sobre un activo de 244 m² y venta tras la revalorización.",
+        "Opción de compra en San Roque Cádiz sobre un activo de 244 m² que aceptamos no ejercer a cambio de una compensación.",
       buy_year: "2024",
       buy_month: "1",
       sell_year: "2024",
@@ -458,7 +460,7 @@ const PROJECTS_DATABASE = {
       margin: 49000,
       irr: 31.4,
       status: "past",
-      image: "",
+      image: "../assets/projects/santamargalida/1.webp",
       additional_images: [],
     },
     {
@@ -469,9 +471,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 250,
       description:
-        "Call option in Santa Margalida Balearic Islands granting acquisition right over 250 m² with asset still in progress.",
+        "Call option in Santa Margalida, Balearic Islands on a 250 m² asset. We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra en Santa Margalida Baleares que otorga el derecho de adquisición sobre 250 m² con el activo aún en curso.",
+        "Opción de compra en Santa Margalida, Baleares, sobre un activo de 250 m². Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2023",
       buy_month: "12",
       sell_year: "2025",
@@ -481,7 +483,7 @@ const PROJECTS_DATABASE = {
       margin: 31000,
       irr: 19.9,
       status: "past",
-      image: "",
+      image: "../assets/projects/santamargalida/1.webp",
       additional_images: [],
     },
     {
@@ -492,9 +494,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 189,
       description:
-        "Call option in Alcúdia Balearic Islands with a surface of 189 m² and sale upon reaching target price.",
+        "Call option in Alcúdia Balearic Islands with a surface of 189 m². We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra en Alcúdia Baleares con una superficie de 189 m² y venta al alcanzar el precio objetivo.",
+        "Opción de compra en Alcúdia Baleares con una superficie de 189 m². Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2023",
       buy_month: "12",
       sell_year: "2024",
@@ -515,9 +517,9 @@ const PROJECTS_DATABASE = {
       project_type: "Loan acquisition",
       area: 258,
       description:
-        "Credit purchase in Sant Antoni de Calonge Girona on a 258 m² asset with recovery and execution strategy and scheduled exit.",
+        "Credit purchase in Sant Antoni de Calonge Girona on a 258 m². We intend to acquire the asset, renovate it and sell it.",
       descripcion:
-        "Compra de crédito en Sant Antoni de Calonge Girona sobre un activo de 258 m² con estrategia de recuperación y ejecución y salida programada.",
+        "Compra de crédito en Sant Antoni de Calonge Girona sobre un activo de 258 m². Pretendemos adjudicarnos el activo, reformarlo y venderlo.",
       buy_year: "2023",
       buy_month: "11",
       sell_year: "2026",
@@ -538,9 +540,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 241,
       description:
-        "Call option in Binissalem Balearic Islands with a surface of 241 m² and divestment through exercise or assignment.",
+        "Call option in Binissalem Balearic Islands with a surface of 241 m². We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra en Binissalem Baleares con una superficie de 241 m² y desinversión mediante ejercicio o cesión.",
+        "Opción de compra en Binissalem Baleares con una superficie de 241 m². Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2023",
       buy_month: "10",
       sell_year: "2024",
@@ -561,9 +563,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 61,
       description:
-        "Call option in Ripollet Barcelona granting preferential right over 61 m² and sale after value capture.",
+        "Call option in Ripollet Barcelona over a 61 m² asset. We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra en Ripollet Barcelona que otorga un derecho preferente sobre 61 m² y venta tras la captura de valor.",
+        "Opción de compra en Ripollet Barcelona sobre un activo de 61 m². Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2023",
       buy_month: "10",
       sell_year: "2024",
@@ -573,7 +575,7 @@ const PROJECTS_DATABASE = {
       margin: 10000,
       irr: 55.5,
       status: "past",
-      image: "",
+      image: "../assets/projects/ripollet/1.webp",
       additional_images: [],
     },
     {
@@ -584,9 +586,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 100,
       description:
-        "Call option in Montmeló Barcelona on 100 m² with monetization through exercise or assignment of right.",
+        "Call option in Montmeló Barcelona on a 100 m² asset. We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra en Montmeló Barcelona sobre 100 m² con monetización por ejercicio o cesión del derecho.",
+        "Opción de compra en Montmeló Barcelona sobre un activo de 100 m². Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2023",
       buy_month: "10",
       sell_year: "2023",
@@ -607,9 +609,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 157,
       description:
-        "Call option in Marimunt Lleida with control over 157 m² and monetization through transfer after appreciation.",
+        "Call option in Marimunt Lleida with control over 157 m². We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra en Marimunt Lleida con control sobre 157 m² y monetización por transmisión tras la revalorización.",
+        "Opción de compra en Marimunt Lleida con control sobre 157 m². Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2023",
       buy_month: "9",
       sell_year: "2025",
@@ -630,9 +632,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 263,
       description:
-        "Credit purchase in Teià Barcelona through acquisition of a loan secured by a 263 m² asset with management for recovery and exit.",
+        "Credit purchase guaranteed by a 263 m² asset in Teià, Barcelona. We reached an agreement between the debtor, the buyer and us.",
       descripcion:
-        "Compra de crédito en Teià Barcelona mediante adquisición de un préstamo garantizado por un activo de 263 m² con gestión para su recuperación y salida.",
+        "Compra de crédito garantizado por un activo de 263 m² en Teià, Barcelona. Llegamos a un acuerdo a tres partes entre el deudor, el comprador y nosotros.",
       buy_year: "2023",
       buy_month: "8",
       sell_year: "2024",
@@ -676,9 +678,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 1029,
       description:
-        "Call option on a hotel in Montseny Barcelona with acquisition right over 1029 m² and exit through sale after contractual repositioning.",
+        "Call option on a hotel of 1029 m² in Montseny, Barcelona. We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra sobre un hotel en Montseny Barcelona con derecho de adquisición sobre 1029 m² y salida mediante venta después de un reposicionamiento contractual.",
+        "Opción de compra sobre un hotel de 1029 m² en Montseny, Barcelona. Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2023",
       buy_month: "7",
       sell_year: "2025",
@@ -699,9 +701,9 @@ const PROJECTS_DATABASE = {
       project_type: "Call option",
       area: 142,
       description:
-        "Call option in Campanar Valencia with a contract that incorporates a premium.",
+        "Call option in Campanar, Valencia on a 142 m² asset. We accepted not to exercise the purchase right in exchange for a compensation.",
       descripcion:
-        "Opción de compra en Campanar Valencia con un contrato que incorpora una prima.",
+        "Opción de compra en Campanar, Valencia sobre un activo de 142 m². Aceptamos no ejercer el derecho de compra a cambio de una compensación.",
       buy_year: "2023",
       buy_month: "7",
       sell_year: "2024",
@@ -768,9 +770,9 @@ const PROJECTS_DATABASE = {
       project_type: "Purchase - Renovation - Sale",
       area: 47,
       description:
-        "Project in Guindalera (Madrid) focused on the purchase, renovation, and subsequent sale of a 47 m² home, generating an attractive revaluation.",
+        "Project in Guindalera (Madrid) focused on the purchase, renovation, and subsequent sale of a 47 m² home.",
       descripcion:
-        "Proyecto en Guindalera (Madrid) centrado en la compra, reforma y posterior venta de una vivienda de 47 m², generando una revalorización atractiva.",
+        "Proyecto en Guindalera (Madrid) centrado en la compra, reforma y posterior venta de una vivienda de 47 m².",
       buy_year: "2023",
       buy_month: "2",
       sell_year: "2023",
@@ -800,9 +802,9 @@ const PROJECTS_DATABASE = {
       project_type: "Purchase - Renovation - Sale",
       area: 78,
       description:
-        "Project in Concepción (Madrid) based on the purchase, renovation, and subsequent sale of a 78 m² home, achieving a notable increase in its value.",
+        "Project in Concepción (Madrid) based on the purchase, renovation, and subsequent sale of a 78 m² home.",
       descripcion:
-        "Proyecto en Concepción (Madrid) basado en la compra, reforma y posterior venta de una vivienda de 78 m², logrando un incremento notable en su valor.",
+        "Proyecto en Concepción (Madrid) basado en la compra, reforma y posterior venta de una vivienda de 78 m².",
       buy_year: "2023",
       buy_month: "1",
       sell_year: "2023",
@@ -860,9 +862,9 @@ const PROJECTS_DATABASE = {
       project_type: "Purchase - Renovation - Sale",
       area: 72,
       description:
-        "Project in Prosperidad (Madrid) consisting of the acquisition, renovation, and sale of a 72 m² home, achieving an increase in its market value.",
+        "Project in Prosperidad (Madrid) consisting of the acquisition, renovation, and sale of a 72 m² home.",
       descripcion:
-        "Proyecto en Prosperidad (Madrid) consistente en la adquisición, reforma y venta de una vivienda de 72 m², logrando un aumento en su valor de mercado.",
+        "Proyecto en Prosperidad (Madrid) consistente en la adquisición, reforma y venta de una vivienda de 72 m².",
       buy_year: "2022",
       buy_month: "9",
       sell_year: "2023",
@@ -893,9 +895,9 @@ const PROJECTS_DATABASE = {
       project_type: "Purchase - Renovation - Sale",
       area: 60,
       description:
-        "Purchase, renovation and sale project in Guindalera Madrid on a 60 m² property redistributed and improved in quality and efficiency before sale.",
+        "Purchase, renovation and sale project in Guindalera, Madrid on a 60 m² property.",
       descripcion:
-        "Proyecto de compra, reforma y venta en Guindalera Madrid sobre una vivienda de 60 m² redistribuida y mejorada en calidades y eficiencia antes de su venta.",
+        "Proyecto de compra, reforma y venta en Guindalera, Madrid sobre una vivienda de 60 m².",
       buy_year: "2022",
       buy_month: "3",
       sell_year: "2022",
@@ -905,8 +907,15 @@ const PROJECTS_DATABASE = {
       margin: 32000,
       irr: 51.3,
       status: "past",
-      image: "",
-      additional_images: [],
+      image: "../assets/projects/iriarte/1.webp",
+      additional_images: [
+        { image: "../assets/projects/iriarte/2.webp" },
+        { image: "../assets/projects/iriarte/3.webp" },
+        { image: "../assets/projects/iriarte/4.webp" },
+        { image: "../assets/projects/iriarte/5.webp" },
+        { image: "../assets/projects/iriarte/6.webp" },
+        { image: "../assets/projects/iriarte/7.webp" },
+      ],
     },
     {
       id: 16,
@@ -916,9 +925,9 @@ const PROJECTS_DATABASE = {
       project_type: "Purchase - Renovation - Sale",
       area: 62,
       description:
-        "Purchase, renovation and sale project in Ibiza Madrid with a 62 m² property comprehensively updated and sold through residential channel.",
+        "Purchase, renovation and sale project in Ibiza, Madrid on a 62 m² property.",
       descripcion:
-        "Proyecto de compra, reforma y venta en Ibiza Madrid con una vivienda de 62 m² actualizada de manera integral y vendida en el canal residencial.",
+        "Proyecto de compra, reforma y venta en Ibiza, Madrid sobre una vivienda de 62 m².",
       buy_year: "2022",
       buy_month: "3",
       sell_year: "2022",
@@ -928,8 +937,14 @@ const PROJECTS_DATABASE = {
       margin: 27000,
       irr: 31.5,
       status: "past",
-      image: "",
-      additional_images: [],
+      image: "../assets/projects/lopederueda/1.webp",
+      additional_images: [
+        { image: "../assets/projects/lopederueda/2.webp" },
+        { image: "../assets/projects/lopederueda/3.webp" },
+        { image: "../assets/projects/lopederueda/4.webp" },
+        { image: "../assets/projects/lopederueda/5.webp" },
+        { image: "../assets/projects/lopederueda/6.webp" },
+      ],
     },
     {
       id: 15,
@@ -1037,9 +1052,9 @@ const PROJECTS_DATABASE = {
       project_type: "Purchase - Renovation - Sale",
       area: 91,
       description:
-        "Purchase and sale operation in Malasaña Madrid initially planned with renovation but ultimately sold without works due to market opportunity.",
+        "Purchase and sale operation in Malasaña, Madrid initially planned with renovation but ultimately sold without performing any works due to market opportunity.",
       descripcion:
-        "Operación de compra y venta en Malasaña Madrid inicialmente prevista con reforma aunque finalmente vendida sin obras por oportunidad de mercado.",
+        "Operación de compra y venta en Malasaña, Madrid inicialmente prevista con reforma aunque finalmente vendida sin realizar obras al recibir una oferta atractiva.",
       buy_year: "2021",
       buy_month: "9",
       sell_year: "2022",
@@ -1248,8 +1263,8 @@ const PROJECTS_DATABASE = {
       id: 6,
       name: "Ciudad Real",
       location: "Ciudad Real, Ciudad Real",
-      tipo_proyecto: "Participación en vehículo promotor",
-      project_type: "Investment in developer entity",
+      tipo_proyecto: "Préstamo promotor",
+      project_type: "Developer loan",
       area: 400,
       description:
         "Minority participation in developer entity in Ciudad Real through contribution to a reference residential development with project monitoring.",
@@ -1264,15 +1279,15 @@ const PROJECTS_DATABASE = {
       margin: 3000,
       irr: 17.7,
       status: "past",
-      image: "",
+      image: "../assets/projects/ciudadreal/1.webp",
       additional_images: [],
     },
     {
       id: 5,
       name: "Fuencarral I",
       location: "Fuencarral, Madrid",
-      tipo_proyecto: "Traspaso de derecho de compra",
-      project_type: "Assignment of purchase rights",
+      tipo_proyecto: "Compra - Reforma - Venta",
+      project_type: "Purchase - Renovation - Sale",
       area: 88,
       description:
         "Assignment of purchase rights in Fuencarral Madrid through transfer to a third party of the earnest money position in exchange for a premium.",
@@ -1310,8 +1325,8 @@ const PROJECTS_DATABASE = {
       id: 4,
       name: "Calle Carmen",
       location: "Illescas,  Toledo",
-      tipo_proyecto: "Obra nueva ",
-      project_type: "New development",
+      tipo_proyecto: "Obra nueva / Rehabilitación",
+      project_type: "New development / Refurbishment",
       area: 550,
       description:
         "New development project in Illescas Toledo with development and sale of five properties totaling 550 m² including design, construction and subsequent commercialization.",
@@ -1347,7 +1362,7 @@ const PROJECTS_DATABASE = {
     },
     {
       id: 3,
-      name: "Gómeznarro",
+      name: "Gomeznarro",
       location: "Canillas, Madrid",
       tipo_proyecto: "Compra - Reforma - Venta",
       project_type: "Purchase - Renovation - Sale",
@@ -1359,7 +1374,7 @@ const PROJECTS_DATABASE = {
       buy_year: "2020",
       buy_month: "10",
       sell_year: "2021",
-      sell_month: "21",
+      sell_month: "11",
       cost: 124000,
       revenue: 164000,
       margin: 40000,
@@ -1427,8 +1442,8 @@ const PROJECTS_DATABASE = {
       id: 1,
       name: "Valdepeñas",
       location: "Valdepeñas, Ciudad Real",
-      tipo_proyecto: "Participación en vehículo promotor",
-      project_type: "Investment in developer entity",
+      tipo_proyecto: "Préstamo promotor",
+      project_type: "Developer loan",
       area: 700,
       description:
         "Participation in developer entity in Valdepeñas Ciudad Real with investment in a 700 m² residential project destined for execution and commercialization.",
